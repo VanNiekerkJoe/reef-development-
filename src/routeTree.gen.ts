@@ -14,8 +14,10 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedSuppliersRouteImport } from './routes/_authenticated/suppliers'
 import { Route as AuthenticatedStaticCostsRouteImport } from './routes/_authenticated/static-costs'
+import { Route as AuthenticatedPurchaseOrdersRouteImport } from './routes/_authenticated/purchase-orders'
 import { Route as AuthenticatedProductionRouteImport } from './routes/_authenticated/production'
 import { Route as AuthenticatedMinesRouteImport } from './routes/_authenticated/mines'
+import { Route as AuthenticatedMaintenanceRouteImport } from './routes/_authenticated/maintenance'
 import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
 import { Route as AuthenticatedEquipmentRouteImport } from './routes/_authenticated/equipment'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -46,6 +48,12 @@ const AuthenticatedStaticCostsRoute =
     path: '/static-costs',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPurchaseOrdersRoute =
+  AuthenticatedPurchaseOrdersRouteImport.update({
+    id: '/purchase-orders',
+    path: '/purchase-orders',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedProductionRoute = AuthenticatedProductionRouteImport.update({
   id: '/production',
   path: '/production',
@@ -56,6 +64,12 @@ const AuthenticatedMinesRoute = AuthenticatedMinesRouteImport.update({
   path: '/mines',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMaintenanceRoute =
+  AuthenticatedMaintenanceRouteImport.update({
+    id: '/maintenance',
+    path: '/maintenance',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedInventoryRoute = AuthenticatedInventoryRouteImport.update({
   id: '/inventory',
   path: '/inventory',
@@ -84,8 +98,10 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/equipment': typeof AuthenticatedEquipmentRoute
   '/inventory': typeof AuthenticatedInventoryRoute
+  '/maintenance': typeof AuthenticatedMaintenanceRoute
   '/mines': typeof AuthenticatedMinesRoute
   '/production': typeof AuthenticatedProductionRoute
+  '/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
   '/static-costs': typeof AuthenticatedStaticCostsRoute
   '/suppliers': typeof AuthenticatedSuppliersRoute
 }
@@ -96,8 +112,10 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/equipment': typeof AuthenticatedEquipmentRoute
   '/inventory': typeof AuthenticatedInventoryRoute
+  '/maintenance': typeof AuthenticatedMaintenanceRoute
   '/mines': typeof AuthenticatedMinesRoute
   '/production': typeof AuthenticatedProductionRoute
+  '/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
   '/static-costs': typeof AuthenticatedStaticCostsRoute
   '/suppliers': typeof AuthenticatedSuppliersRoute
 }
@@ -110,8 +128,10 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/equipment': typeof AuthenticatedEquipmentRoute
   '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
+  '/_authenticated/maintenance': typeof AuthenticatedMaintenanceRoute
   '/_authenticated/mines': typeof AuthenticatedMinesRoute
   '/_authenticated/production': typeof AuthenticatedProductionRoute
+  '/_authenticated/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
   '/_authenticated/static-costs': typeof AuthenticatedStaticCostsRoute
   '/_authenticated/suppliers': typeof AuthenticatedSuppliersRoute
 }
@@ -124,8 +144,10 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/equipment'
     | '/inventory'
+    | '/maintenance'
     | '/mines'
     | '/production'
+    | '/purchase-orders'
     | '/static-costs'
     | '/suppliers'
   fileRoutesByTo: FileRoutesByTo
@@ -136,8 +158,10 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/equipment'
     | '/inventory'
+    | '/maintenance'
     | '/mines'
     | '/production'
+    | '/purchase-orders'
     | '/static-costs'
     | '/suppliers'
   id:
@@ -149,8 +173,10 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/equipment'
     | '/_authenticated/inventory'
+    | '/_authenticated/maintenance'
     | '/_authenticated/mines'
     | '/_authenticated/production'
+    | '/_authenticated/purchase-orders'
     | '/_authenticated/static-costs'
     | '/_authenticated/suppliers'
   fileRoutesById: FileRoutesById
@@ -198,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStaticCostsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/purchase-orders': {
+      id: '/_authenticated/purchase-orders'
+      path: '/purchase-orders'
+      fullPath: '/purchase-orders'
+      preLoaderRoute: typeof AuthenticatedPurchaseOrdersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/production': {
       id: '/_authenticated/production'
       path: '/production'
@@ -210,6 +243,13 @@ declare module '@tanstack/react-router' {
       path: '/mines'
       fullPath: '/mines'
       preLoaderRoute: typeof AuthenticatedMinesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/maintenance': {
+      id: '/_authenticated/maintenance'
+      path: '/maintenance'
+      fullPath: '/maintenance'
+      preLoaderRoute: typeof AuthenticatedMaintenanceRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/inventory': {
@@ -248,8 +288,10 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedEquipmentRoute: typeof AuthenticatedEquipmentRoute
   AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRoute
+  AuthenticatedMaintenanceRoute: typeof AuthenticatedMaintenanceRoute
   AuthenticatedMinesRoute: typeof AuthenticatedMinesRoute
   AuthenticatedProductionRoute: typeof AuthenticatedProductionRoute
+  AuthenticatedPurchaseOrdersRoute: typeof AuthenticatedPurchaseOrdersRoute
   AuthenticatedStaticCostsRoute: typeof AuthenticatedStaticCostsRoute
   AuthenticatedSuppliersRoute: typeof AuthenticatedSuppliersRoute
 }
@@ -259,8 +301,10 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedEquipmentRoute: AuthenticatedEquipmentRoute,
   AuthenticatedInventoryRoute: AuthenticatedInventoryRoute,
+  AuthenticatedMaintenanceRoute: AuthenticatedMaintenanceRoute,
   AuthenticatedMinesRoute: AuthenticatedMinesRoute,
   AuthenticatedProductionRoute: AuthenticatedProductionRoute,
+  AuthenticatedPurchaseOrdersRoute: AuthenticatedPurchaseOrdersRoute,
   AuthenticatedStaticCostsRoute: AuthenticatedStaticCostsRoute,
   AuthenticatedSuppliersRoute: AuthenticatedSuppliersRoute,
 }

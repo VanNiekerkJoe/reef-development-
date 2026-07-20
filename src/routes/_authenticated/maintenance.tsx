@@ -44,7 +44,7 @@ function Page() {
       if (error) throw error;
       const cleanParts = parts.filter((p) => p.stock_item_id && p.qty > 0);
       if (cleanParts.length) {
-        const rows = cleanParts.map((p) => ({ maintenance_log_id: log.id, stock_item_id: p.stock_item_id, qty_used: p.qty }));
+        const rows = cleanParts.map((p) => ({ maintenance_id: log.id, stock_item_id: p.stock_item_id, qty: p.qty }));
         const { error: pe } = await supabase.from("maintenance_parts").insert(rows);
         if (pe) throw pe;
       }
