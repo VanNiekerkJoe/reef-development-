@@ -9,38 +9,200 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedSuppliersRouteImport } from './routes/_authenticated/suppliers'
+import { Route as AuthenticatedStaticCostsRouteImport } from './routes/_authenticated/static-costs'
+import { Route as AuthenticatedPurchaseOrdersRouteImport } from './routes/_authenticated/purchase-orders'
+import { Route as AuthenticatedProductionRouteImport } from './routes/_authenticated/production'
+import { Route as AuthenticatedMinesRouteImport } from './routes/_authenticated/mines'
+import { Route as AuthenticatedMaintenanceRouteImport } from './routes/_authenticated/maintenance'
+import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
+import { Route as AuthenticatedEquipmentRouteImport } from './routes/_authenticated/equipment'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedClientsRouteImport } from './routes/_authenticated/clients'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedSuppliersRoute = AuthenticatedSuppliersRouteImport.update({
+  id: '/suppliers',
+  path: '/suppliers',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedStaticCostsRoute =
+  AuthenticatedStaticCostsRouteImport.update({
+    id: '/static-costs',
+    path: '/static-costs',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPurchaseOrdersRoute =
+  AuthenticatedPurchaseOrdersRouteImport.update({
+    id: '/purchase-orders',
+    path: '/purchase-orders',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedProductionRoute = AuthenticatedProductionRouteImport.update({
+  id: '/production',
+  path: '/production',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMinesRoute = AuthenticatedMinesRouteImport.update({
+  id: '/mines',
+  path: '/mines',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMaintenanceRoute =
+  AuthenticatedMaintenanceRouteImport.update({
+    id: '/maintenance',
+    path: '/maintenance',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInventoryRoute = AuthenticatedInventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedEquipmentRoute = AuthenticatedEquipmentRouteImport.update({
+  id: '/equipment',
+  path: '/equipment',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedClientsRoute = AuthenticatedClientsRouteImport.update({
+  id: '/clients',
+  path: '/clients',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/clients': typeof AuthenticatedClientsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/equipment': typeof AuthenticatedEquipmentRoute
+  '/inventory': typeof AuthenticatedInventoryRoute
+  '/maintenance': typeof AuthenticatedMaintenanceRoute
+  '/mines': typeof AuthenticatedMinesRoute
+  '/production': typeof AuthenticatedProductionRoute
+  '/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
+  '/static-costs': typeof AuthenticatedStaticCostsRoute
+  '/suppliers': typeof AuthenticatedSuppliersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/clients': typeof AuthenticatedClientsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/equipment': typeof AuthenticatedEquipmentRoute
+  '/inventory': typeof AuthenticatedInventoryRoute
+  '/maintenance': typeof AuthenticatedMaintenanceRoute
+  '/mines': typeof AuthenticatedMinesRoute
+  '/production': typeof AuthenticatedProductionRoute
+  '/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
+  '/static-costs': typeof AuthenticatedStaticCostsRoute
+  '/suppliers': typeof AuthenticatedSuppliersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/clients': typeof AuthenticatedClientsRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/equipment': typeof AuthenticatedEquipmentRoute
+  '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
+  '/_authenticated/maintenance': typeof AuthenticatedMaintenanceRoute
+  '/_authenticated/mines': typeof AuthenticatedMinesRoute
+  '/_authenticated/production': typeof AuthenticatedProductionRoute
+  '/_authenticated/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
+  '/_authenticated/static-costs': typeof AuthenticatedStaticCostsRoute
+  '/_authenticated/suppliers': typeof AuthenticatedSuppliersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/clients'
+    | '/dashboard'
+    | '/equipment'
+    | '/inventory'
+    | '/maintenance'
+    | '/mines'
+    | '/production'
+    | '/purchase-orders'
+    | '/static-costs'
+    | '/suppliers'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/clients'
+    | '/dashboard'
+    | '/equipment'
+    | '/inventory'
+    | '/maintenance'
+    | '/mines'
+    | '/production'
+    | '/purchase-orders'
+    | '/static-costs'
+    | '/suppliers'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/clients'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/equipment'
+    | '/_authenticated/inventory'
+    | '/_authenticated/maintenance'
+    | '/_authenticated/mines'
+    | '/_authenticated/production'
+    | '/_authenticated/purchase-orders'
+    | '/_authenticated/static-costs'
+    | '/_authenticated/suppliers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +210,113 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/suppliers': {
+      id: '/_authenticated/suppliers'
+      path: '/suppliers'
+      fullPath: '/suppliers'
+      preLoaderRoute: typeof AuthenticatedSuppliersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/static-costs': {
+      id: '/_authenticated/static-costs'
+      path: '/static-costs'
+      fullPath: '/static-costs'
+      preLoaderRoute: typeof AuthenticatedStaticCostsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/purchase-orders': {
+      id: '/_authenticated/purchase-orders'
+      path: '/purchase-orders'
+      fullPath: '/purchase-orders'
+      preLoaderRoute: typeof AuthenticatedPurchaseOrdersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/production': {
+      id: '/_authenticated/production'
+      path: '/production'
+      fullPath: '/production'
+      preLoaderRoute: typeof AuthenticatedProductionRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/mines': {
+      id: '/_authenticated/mines'
+      path: '/mines'
+      fullPath: '/mines'
+      preLoaderRoute: typeof AuthenticatedMinesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/maintenance': {
+      id: '/_authenticated/maintenance'
+      path: '/maintenance'
+      fullPath: '/maintenance'
+      preLoaderRoute: typeof AuthenticatedMaintenanceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inventory': {
+      id: '/_authenticated/inventory'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof AuthenticatedInventoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/equipment': {
+      id: '/_authenticated/equipment'
+      path: '/equipment'
+      fullPath: '/equipment'
+      preLoaderRoute: typeof AuthenticatedEquipmentRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/clients': {
+      id: '/_authenticated/clients'
+      path: '/clients'
+      fullPath: '/clients'
+      preLoaderRoute: typeof AuthenticatedClientsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedClientsRoute: typeof AuthenticatedClientsRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedEquipmentRoute: typeof AuthenticatedEquipmentRoute
+  AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRoute
+  AuthenticatedMaintenanceRoute: typeof AuthenticatedMaintenanceRoute
+  AuthenticatedMinesRoute: typeof AuthenticatedMinesRoute
+  AuthenticatedProductionRoute: typeof AuthenticatedProductionRoute
+  AuthenticatedPurchaseOrdersRoute: typeof AuthenticatedPurchaseOrdersRoute
+  AuthenticatedStaticCostsRoute: typeof AuthenticatedStaticCostsRoute
+  AuthenticatedSuppliersRoute: typeof AuthenticatedSuppliersRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedClientsRoute: AuthenticatedClientsRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedEquipmentRoute: AuthenticatedEquipmentRoute,
+  AuthenticatedInventoryRoute: AuthenticatedInventoryRoute,
+  AuthenticatedMaintenanceRoute: AuthenticatedMaintenanceRoute,
+  AuthenticatedMinesRoute: AuthenticatedMinesRoute,
+  AuthenticatedProductionRoute: AuthenticatedProductionRoute,
+  AuthenticatedPurchaseOrdersRoute: AuthenticatedPurchaseOrdersRoute,
+  AuthenticatedStaticCostsRoute: AuthenticatedStaticCostsRoute,
+  AuthenticatedSuppliersRoute: AuthenticatedSuppliersRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
