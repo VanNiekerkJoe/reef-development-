@@ -59,6 +59,66 @@ export type Database = {
         }
         Relationships: []
       }
+      downtime_events: {
+        Row: {
+          created_at: string
+          duration_hours: number
+          equipment_id: string | null
+          estimated_cost: number
+          id: string
+          logged_by: string | null
+          mine_id: string | null
+          notes: string | null
+          photo_urls: string[]
+          reason: string
+          start_time: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          duration_hours?: number
+          equipment_id?: string | null
+          estimated_cost?: number
+          id?: string
+          logged_by?: string | null
+          mine_id?: string | null
+          notes?: string | null
+          photo_urls?: string[]
+          reason: string
+          start_time?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          duration_hours?: number
+          equipment_id?: string | null
+          estimated_cost?: number
+          id?: string
+          logged_by?: string | null
+          mine_id?: string | null
+          notes?: string | null
+          photo_urls?: string[]
+          reason?: string
+          start_time?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "downtime_events_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "downtime_events_mine_id_fkey"
+            columns: ["mine_id"]
+            isOneToOne: false
+            referencedRelation: "mines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       equipment: {
         Row: {
           created_at: string
@@ -131,10 +191,12 @@ export type Database = {
           id: string
           labour_cost: number
           labour_hours: number
+          logged_by: string | null
           next_due_date: string | null
           next_due_tons: number | null
           parts_cost: number
           performed_by: string | null
+          photo_urls: string[]
           total_cost: number
           updated_at: string
         }
@@ -147,10 +209,12 @@ export type Database = {
           id?: string
           labour_cost?: number
           labour_hours?: number
+          logged_by?: string | null
           next_due_date?: string | null
           next_due_tons?: number | null
           parts_cost?: number
           performed_by?: string | null
+          photo_urls?: string[]
           total_cost?: number
           updated_at?: string
         }
@@ -163,10 +227,12 @@ export type Database = {
           id?: string
           labour_cost?: number
           labour_hours?: number
+          logged_by?: string | null
           next_due_date?: string | null
           next_due_tons?: number | null
           parts_cost?: number
           performed_by?: string | null
+          photo_urls?: string[]
           total_cost?: number
           updated_at?: string
         }
@@ -585,7 +651,12 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "owner" | "manager" | "supervisor" | "stock_controller"
+      app_role:
+        | "owner"
+        | "manager"
+        | "supervisor"
+        | "stock_controller"
+        | "worker"
       po_status: "draft" | "approved" | "ordered" | "received" | "cancelled"
     }
     CompositeTypes: {
@@ -714,7 +785,13 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["owner", "manager", "supervisor", "stock_controller"],
+      app_role: [
+        "owner",
+        "manager",
+        "supervisor",
+        "stock_controller",
+        "worker",
+      ],
       po_status: ["draft", "approved", "ordered", "received", "cancelled"],
     },
   },
