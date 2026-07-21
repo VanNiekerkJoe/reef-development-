@@ -19,7 +19,6 @@ function Page() {
   const [equipId, setEquipId] = useState("");
   const [desc, setDesc] = useState("");
   const [cost, setCost] = useState<number>(0);
-  const [notes, setNotes] = useState("");
   const [photos, setPhotos] = useState<FileList | null>(null);
   const navigate = useNavigate();
   const qc = useQueryClient();
@@ -34,8 +33,7 @@ function Page() {
         equipment_id: equipId,
         date: new Date().toISOString().slice(0, 10),
         description: desc,
-        other_cost: cost,
-        notes: notes || null,
+        labour_cost: cost,
         photo_urls,
         logged_by: userRes.user?.id ?? null,
       });
@@ -66,12 +64,8 @@ function Page() {
         <Input className="h-12 text-base" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="e.g. Replaced belt on conveyor 2" />
       </div>
       <div className="space-y-2">
-        <Label>Estimated cost (ZAR)</Label>
+        <Label>Labour cost (ZAR)</Label>
         <Input type="number" inputMode="decimal" step="0.01" className="h-12 text-lg" value={cost} onChange={(e) => setCost(Number(e.target.value))} />
-      </div>
-      <div className="space-y-2">
-        <Label>Notes (optional)</Label>
-        <Textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} />
       </div>
       <div className="space-y-2">
         <Label className="flex items-center gap-2"><Camera className="w-4 h-4" />Photos (optional)</Label>

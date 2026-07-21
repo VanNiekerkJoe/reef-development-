@@ -15,7 +15,6 @@ function Page() {
   const mines = useList<any>("mines", "name", true);
   const [mineId, setMineId] = useState("");
   const [tons, setTons] = useState<number>(0);
-  const [shift, setShift] = useState("day");
   const navigate = useNavigate();
   const qc = useQueryClient();
 
@@ -26,7 +25,6 @@ function Page() {
       const { error } = await supabase.from("production_logs").insert({
         mine_id: mineId,
         date: new Date().toISOString().slice(0, 10),
-        shift,
         tons_produced: tons,
       });
       if (error) throw error;
@@ -47,16 +45,6 @@ function Page() {
         <Select value={mineId} onValueChange={setMineId}>
           <SelectTrigger className="h-12 text-base"><SelectValue placeholder="Select mine" /></SelectTrigger>
           <SelectContent>{mines.data?.map((m: any) => <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>)}</SelectContent>
-        </Select>
-      </div>
-      <div className="space-y-2">
-        <Label>Shift</Label>
-        <Select value={shift} onValueChange={setShift}>
-          <SelectTrigger className="h-12 text-base"><SelectValue /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="day">Day</SelectItem>
-            <SelectItem value="night">Night</SelectItem>
-          </SelectContent>
         </Select>
       </div>
       <div className="space-y-2">
