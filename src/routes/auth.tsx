@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Fuel } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -31,6 +32,7 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [signupRole, setSignupRole] = useState<"worker" | "owner" | "manager">("worker");
   const [loading, setLoading] = useState(false);
 
   const onLogin = async (e: FormEvent) => {
@@ -40,7 +42,7 @@ function AuthPage() {
     setLoading(false);
     if (error) return toast.error(error.message);
     toast.success("Signed in");
-    navigate({ to: "/dashboard" });
+    navigate({ to: "/" });
   };
 
   const onSignup = async (e: FormEvent) => {
@@ -51,7 +53,7 @@ function AuthPage() {
       password,
       options: {
         emailRedirectTo: window.location.origin,
-        data: { full_name: fullName },
+        data: { full_name: fullName, role: signupRole },
       },
     });
     setLoading(false);
@@ -65,7 +67,7 @@ function AuthPage() {
     });
     if (result.error) return toast.error(result.error.message ?? "Google sign-in failed");
     if (result.redirected) return;
-    navigate({ to: "/dashboard" });
+    navigate({ to: "/" });
   };
 
   return (
@@ -96,6 +98,17 @@ function AuthPage() {
                 <div><Label>Full name</Label><Input required value={fullName} onChange={(e) => setFullName(e.target.value)} /></div>
                 <div><Label>Email</Label><Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} /></div>
                 <div><Label>Password</Label><Input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} /></div>
+                <div>
+                  <Label>Role</Label>
+                  <Select value={signupRole} onValueChange={(v) => setSignupRole(v as any)}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="worker">Worker — mobile logging</SelectItem>
+                      <SelectItem value="manager">Manager — full dashboard</SelectItem>
+                      <SelectItem value="owner">Owner — full dashboard</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
                 <Button type="submit" className="w-full" disabled={loading}>Create account</Button>
               </form>
             </TabsContent>

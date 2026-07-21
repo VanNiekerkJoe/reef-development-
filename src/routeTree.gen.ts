@@ -10,8 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as WorkerRouteRouteImport } from './routes/worker/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WorkerIndexRouteImport } from './routes/worker/index'
+import { Route as WorkerLogUsageRouteImport } from './routes/worker/log-usage'
+import { Route as WorkerLogRepairRouteImport } from './routes/worker/log-repair'
+import { Route as WorkerLogProductionRouteImport } from './routes/worker/log-production'
+import { Route as WorkerLogDowntimeRouteImport } from './routes/worker/log-downtime'
 import { Route as AuthenticatedSuppliersRouteImport } from './routes/_authenticated/suppliers'
 import { Route as AuthenticatedStaticCostsRouteImport } from './routes/_authenticated/static-costs'
 import { Route as AuthenticatedPurchaseOrdersRouteImport } from './routes/_authenticated/purchase-orders'
@@ -20,12 +26,18 @@ import { Route as AuthenticatedMinesRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedMaintenanceRouteImport } from './routes/_authenticated/maintenance'
 import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
 import { Route as AuthenticatedEquipmentRouteImport } from './routes/_authenticated/equipment'
+import { Route as AuthenticatedDowntimeRouteImport } from './routes/_authenticated/downtime'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedClientsRouteImport } from './routes/_authenticated/clients'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkerRouteRoute = WorkerRouteRouteImport.update({
+  id: '/worker',
+  path: '/worker',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -36,6 +48,31 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const WorkerIndexRoute = WorkerIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => WorkerRouteRoute,
+} as any)
+const WorkerLogUsageRoute = WorkerLogUsageRouteImport.update({
+  id: '/log-usage',
+  path: '/log-usage',
+  getParentRoute: () => WorkerRouteRoute,
+} as any)
+const WorkerLogRepairRoute = WorkerLogRepairRouteImport.update({
+  id: '/log-repair',
+  path: '/log-repair',
+  getParentRoute: () => WorkerRouteRoute,
+} as any)
+const WorkerLogProductionRoute = WorkerLogProductionRouteImport.update({
+  id: '/log-production',
+  path: '/log-production',
+  getParentRoute: () => WorkerRouteRoute,
+} as any)
+const WorkerLogDowntimeRoute = WorkerLogDowntimeRouteImport.update({
+  id: '/log-downtime',
+  path: '/log-downtime',
+  getParentRoute: () => WorkerRouteRoute,
 } as any)
 const AuthenticatedSuppliersRoute = AuthenticatedSuppliersRouteImport.update({
   id: '/suppliers',
@@ -80,6 +117,11 @@ const AuthenticatedEquipmentRoute = AuthenticatedEquipmentRouteImport.update({
   path: '/equipment',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedDowntimeRoute = AuthenticatedDowntimeRouteImport.update({
+  id: '/downtime',
+  path: '/downtime',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -93,9 +135,11 @@ const AuthenticatedClientsRoute = AuthenticatedClientsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/worker': typeof WorkerRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/clients': typeof AuthenticatedClientsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/downtime': typeof AuthenticatedDowntimeRoute
   '/equipment': typeof AuthenticatedEquipmentRoute
   '/inventory': typeof AuthenticatedInventoryRoute
   '/maintenance': typeof AuthenticatedMaintenanceRoute
@@ -104,12 +148,18 @@ export interface FileRoutesByFullPath {
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
   '/static-costs': typeof AuthenticatedStaticCostsRoute
   '/suppliers': typeof AuthenticatedSuppliersRoute
+  '/worker/log-downtime': typeof WorkerLogDowntimeRoute
+  '/worker/log-production': typeof WorkerLogProductionRoute
+  '/worker/log-repair': typeof WorkerLogRepairRoute
+  '/worker/log-usage': typeof WorkerLogUsageRoute
+  '/worker/': typeof WorkerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/clients': typeof AuthenticatedClientsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/downtime': typeof AuthenticatedDowntimeRoute
   '/equipment': typeof AuthenticatedEquipmentRoute
   '/inventory': typeof AuthenticatedInventoryRoute
   '/maintenance': typeof AuthenticatedMaintenanceRoute
@@ -118,14 +168,21 @@ export interface FileRoutesByTo {
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
   '/static-costs': typeof AuthenticatedStaticCostsRoute
   '/suppliers': typeof AuthenticatedSuppliersRoute
+  '/worker/log-downtime': typeof WorkerLogDowntimeRoute
+  '/worker/log-production': typeof WorkerLogProductionRoute
+  '/worker/log-repair': typeof WorkerLogRepairRoute
+  '/worker/log-usage': typeof WorkerLogUsageRoute
+  '/worker': typeof WorkerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/worker': typeof WorkerRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/clients': typeof AuthenticatedClientsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/downtime': typeof AuthenticatedDowntimeRoute
   '/_authenticated/equipment': typeof AuthenticatedEquipmentRoute
   '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
   '/_authenticated/maintenance': typeof AuthenticatedMaintenanceRoute
@@ -134,14 +191,21 @@ export interface FileRoutesById {
   '/_authenticated/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
   '/_authenticated/static-costs': typeof AuthenticatedStaticCostsRoute
   '/_authenticated/suppliers': typeof AuthenticatedSuppliersRoute
+  '/worker/log-downtime': typeof WorkerLogDowntimeRoute
+  '/worker/log-production': typeof WorkerLogProductionRoute
+  '/worker/log-repair': typeof WorkerLogRepairRoute
+  '/worker/log-usage': typeof WorkerLogUsageRoute
+  '/worker/': typeof WorkerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/worker'
     | '/auth'
     | '/clients'
     | '/dashboard'
+    | '/downtime'
     | '/equipment'
     | '/inventory'
     | '/maintenance'
@@ -150,12 +214,18 @@ export interface FileRouteTypes {
     | '/purchase-orders'
     | '/static-costs'
     | '/suppliers'
+    | '/worker/log-downtime'
+    | '/worker/log-production'
+    | '/worker/log-repair'
+    | '/worker/log-usage'
+    | '/worker/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/clients'
     | '/dashboard'
+    | '/downtime'
     | '/equipment'
     | '/inventory'
     | '/maintenance'
@@ -164,13 +234,20 @@ export interface FileRouteTypes {
     | '/purchase-orders'
     | '/static-costs'
     | '/suppliers'
+    | '/worker/log-downtime'
+    | '/worker/log-production'
+    | '/worker/log-repair'
+    | '/worker/log-usage'
+    | '/worker'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/worker'
     | '/auth'
     | '/_authenticated/clients'
     | '/_authenticated/dashboard'
+    | '/_authenticated/downtime'
     | '/_authenticated/equipment'
     | '/_authenticated/inventory'
     | '/_authenticated/maintenance'
@@ -179,11 +256,17 @@ export interface FileRouteTypes {
     | '/_authenticated/purchase-orders'
     | '/_authenticated/static-costs'
     | '/_authenticated/suppliers'
+    | '/worker/log-downtime'
+    | '/worker/log-production'
+    | '/worker/log-repair'
+    | '/worker/log-usage'
+    | '/worker/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  WorkerRouteRoute: typeof WorkerRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
 }
 
@@ -194,6 +277,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/worker': {
+      id: '/worker'
+      path: '/worker'
+      fullPath: '/worker'
+      preLoaderRoute: typeof WorkerRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -209,6 +299,41 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/worker/': {
+      id: '/worker/'
+      path: '/'
+      fullPath: '/worker/'
+      preLoaderRoute: typeof WorkerIndexRouteImport
+      parentRoute: typeof WorkerRouteRoute
+    }
+    '/worker/log-usage': {
+      id: '/worker/log-usage'
+      path: '/log-usage'
+      fullPath: '/worker/log-usage'
+      preLoaderRoute: typeof WorkerLogUsageRouteImport
+      parentRoute: typeof WorkerRouteRoute
+    }
+    '/worker/log-repair': {
+      id: '/worker/log-repair'
+      path: '/log-repair'
+      fullPath: '/worker/log-repair'
+      preLoaderRoute: typeof WorkerLogRepairRouteImport
+      parentRoute: typeof WorkerRouteRoute
+    }
+    '/worker/log-production': {
+      id: '/worker/log-production'
+      path: '/log-production'
+      fullPath: '/worker/log-production'
+      preLoaderRoute: typeof WorkerLogProductionRouteImport
+      parentRoute: typeof WorkerRouteRoute
+    }
+    '/worker/log-downtime': {
+      id: '/worker/log-downtime'
+      path: '/log-downtime'
+      fullPath: '/worker/log-downtime'
+      preLoaderRoute: typeof WorkerLogDowntimeRouteImport
+      parentRoute: typeof WorkerRouteRoute
     }
     '/_authenticated/suppliers': {
       id: '/_authenticated/suppliers'
@@ -266,6 +391,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEquipmentRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/downtime': {
+      id: '/_authenticated/downtime'
+      path: '/downtime'
+      fullPath: '/downtime'
+      preLoaderRoute: typeof AuthenticatedDowntimeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -286,6 +418,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedClientsRoute: typeof AuthenticatedClientsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDowntimeRoute: typeof AuthenticatedDowntimeRoute
   AuthenticatedEquipmentRoute: typeof AuthenticatedEquipmentRoute
   AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRoute
   AuthenticatedMaintenanceRoute: typeof AuthenticatedMaintenanceRoute
@@ -299,6 +432,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedClientsRoute: AuthenticatedClientsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDowntimeRoute: AuthenticatedDowntimeRoute,
   AuthenticatedEquipmentRoute: AuthenticatedEquipmentRoute,
   AuthenticatedInventoryRoute: AuthenticatedInventoryRoute,
   AuthenticatedMaintenanceRoute: AuthenticatedMaintenanceRoute,
@@ -312,21 +446,32 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface WorkerRouteRouteChildren {
+  WorkerLogDowntimeRoute: typeof WorkerLogDowntimeRoute
+  WorkerLogProductionRoute: typeof WorkerLogProductionRoute
+  WorkerLogRepairRoute: typeof WorkerLogRepairRoute
+  WorkerLogUsageRoute: typeof WorkerLogUsageRoute
+  WorkerIndexRoute: typeof WorkerIndexRoute
+}
+
+const WorkerRouteRouteChildren: WorkerRouteRouteChildren = {
+  WorkerLogDowntimeRoute: WorkerLogDowntimeRoute,
+  WorkerLogProductionRoute: WorkerLogProductionRoute,
+  WorkerLogRepairRoute: WorkerLogRepairRoute,
+  WorkerLogUsageRoute: WorkerLogUsageRoute,
+  WorkerIndexRoute: WorkerIndexRoute,
+}
+
+const WorkerRouteRouteWithChildren = WorkerRouteRoute._addFileChildren(
+  WorkerRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  WorkerRouteRoute: WorkerRouteRouteWithChildren,
   AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

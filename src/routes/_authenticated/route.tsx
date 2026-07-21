@@ -11,7 +11,14 @@ export const Route = createFileRoute("/_authenticated")({
   beforeLoad: async () => {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) throw redirect({ to: "/auth" });
-    return { user: data.user };
+    const { data: roles } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", data.user.id);
+    const list = (roles ?? []).map((r: any) => r.role);
+    const isOwnerish = list.includes("owner") || list.includes("manager");
+    if (!isOwnerish) throw redirect({ to: "/worker" });
+    return { user: data.user, roles: list as string[] };
   },
   component: AuthedLayout,
 });
