@@ -2,6 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, Users, Mountain, Wrench, Boxes, Truck,
   ClipboardList, ShoppingCart, Receipt, AlertOctagon,
+  Gauge,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -19,7 +20,7 @@ const items = [
   { title: "Inventory", url: "/inventory", icon: Boxes },
   { title: "Suppliers", url: "/suppliers", icon: Truck },
   { title: "Purchase Orders", url: "/purchase-orders", icon: ShoppingCart },
-  { title: "Production", url: "/production", icon: Fuel },
+  { title: "Production", url: "/production", icon: Gauge },
   { title: "Static Costs", url: "/static-costs", icon: Receipt },
 ] as const;
 
