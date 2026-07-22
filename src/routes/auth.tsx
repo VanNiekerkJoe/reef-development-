@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import reefLogo from "@/assets/reef-logo.png.asset.json";
+import { Pickaxe, HardHat, ShieldCheck, TrendingUp } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -71,58 +72,153 @@ function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
-         style={{ background: "linear-gradient(180deg, oklch(0.18 0.03 250) 0%, oklch(0.13 0.025 250) 100%)" }}>
-      <div className="absolute inset-0 opacity-[0.07] pointer-events-none"
-           style={{ backgroundImage: "repeating-linear-gradient(135deg, #c9a227 0 1px, transparent 1px 14px)" }} />
-      <Card className="w-full max-w-md relative border-accent/20 shadow-2xl">
-        <div className="mining-rule" />
-        <CardHeader className="text-center space-y-4 pt-8">
-          <div className="mx-auto rounded-md px-4 py-3" style={{ backgroundColor: "#0d1b2a" }}>
-            <img src={reefLogo.url} alt="R.E.E.F — Resource Energy Engineering Fuels" className="h-14 w-auto mx-auto" />
-          </div>
-          <CardDescription className="tracking-[0.2em] text-xs uppercase">Operations Platform · Est. 2014</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="login">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="login">Sign in</TabsTrigger>
-              <TabsTrigger value="signup">Create account</TabsTrigger>
-            </TabsList>
-            <TabsContent value="login" className="space-y-4 mt-4">
-              <form onSubmit={onLogin} className="space-y-3">
-                <div><Label>Email</Label><Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-                <div><Label>Password</Label><Input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} /></div>
-                <Button type="submit" className="w-full" disabled={loading}>Sign in</Button>
-              </form>
-            </TabsContent>
-            <TabsContent value="signup" className="space-y-4 mt-4">
-              <form onSubmit={onSignup} className="space-y-3">
-                <div><Label>Full name</Label><Input required value={fullName} onChange={(e) => setFullName(e.target.value)} /></div>
-                <div><Label>Email</Label><Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-                <div><Label>Password</Label><Input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} /></div>
-                <div>
-                  <Label>Role</Label>
-                  <Select value={signupRole} onValueChange={(v) => setSignupRole(v as any)}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="worker">Worker — mobile logging</SelectItem>
-                      <SelectItem value="manager">Manager — full dashboard</SelectItem>
-                      <SelectItem value="owner">Owner — full dashboard</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <Button type="submit" className="w-full" disabled={loading}>Create account</Button>
-              </form>
-            </TabsContent>
-          </Tabs>
-          <div className="relative my-4">
-            <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
-            <div className="relative flex justify-center text-xs uppercase"><span className="bg-card px-2 text-muted-foreground">or</span></div>
-          </div>
-          <Button variant="outline" className="w-full" onClick={onGoogle}>Continue with Google</Button>
-        </CardContent>
-      </Card>
+    <div
+      className="min-h-screen grid lg:grid-cols-[1.1fr_1fr] relative overflow-hidden"
+      style={{ background: "#0d1b2a" }}
+    >
+      {/* LEFT — brand panel */}
+      <div className="relative hidden lg:flex flex-col justify-between p-12 text-primary-foreground overflow-hidden"
+           style={{ background: "linear-gradient(155deg, #0d1b2a 0%, #0a1522 55%, #05080e 100%)" }}>
+        {/* diagonal industrial hatch */}
+        <div className="absolute inset-0 opacity-[0.08] pointer-events-none"
+             style={{ backgroundImage: "repeating-linear-gradient(135deg, #c9a227 0 1px, transparent 1px 16px)" }} />
+        {/* corner rivets */}
+        <div className="absolute top-6 left-6 h-2 w-2 rounded-full bg-accent/60" />
+        <div className="absolute top-6 right-6 h-2 w-2 rounded-full bg-accent/60" />
+        <div className="absolute bottom-6 left-6 h-2 w-2 rounded-full bg-accent/60" />
+        <div className="absolute bottom-6 right-6 h-2 w-2 rounded-full bg-accent/60" />
+
+        <div className="relative">
+          <img src={reefLogo.url} alt="R.E.E.F — Resource Energy Engineering Fuels" className="h-20 w-auto" />
+          <div className="mining-rule mt-8 max-w-[220px]" />
+          <p className="mt-6 text-[10px] tracking-[0.35em] uppercase text-accent/80">Est. 2014 · Mpumalanga</p>
+        </div>
+
+        <div className="relative space-y-6 max-w-md">
+          <h1 className="text-display text-5xl leading-[1.05] text-white">
+            Move earth.<br/>Move numbers.
+          </h1>
+          <p className="text-sm text-white/70 leading-relaxed max-w-sm normal-case tracking-normal" style={{fontFamily:"var(--font-sans)"}}>
+            The operations platform for Resource Energy Engineering Fuels — maintenance,
+            magnetite, tonnage and rand-per-ton, live across every contract mine.
+          </p>
+        </div>
+
+        <div className="relative grid grid-cols-2 gap-4 max-w-md">
+          {[
+            { icon: Pickaxe, label: "Live stock control" },
+            { icon: HardHat, label: "Field-first logging" },
+            { icon: TrendingUp, label: "Rand per ton" },
+            { icon: ShieldCheck, label: "Role-based access" },
+          ].map(({ icon: Icon, label }) => (
+            <div key={label} className="flex items-center gap-3 text-xs tracking-[0.15em] uppercase text-white/75"
+                 style={{fontFamily:"var(--font-sans)", fontWeight:500}}>
+              <div className="h-8 w-8 grid place-items-center border border-accent/40 text-accent">
+                <Icon className="h-4 w-4" strokeWidth={1.75} />
+              </div>
+              {label}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* RIGHT — form panel */}
+      <div className="relative flex items-center justify-center p-6 sm:p-10 bg-background">
+        <div className="absolute inset-0 opacity-[0.5] pointer-events-none"
+             style={{ backgroundImage:
+               "radial-gradient(oklch(0.75 0.14 85 / 0.06) 1px, transparent 1px), radial-gradient(oklch(0.18 0.03 250 / 0.04) 1px, transparent 1px)",
+               backgroundSize: "22px 22px, 22px 22px",
+               backgroundPosition: "0 0, 11px 11px" }} />
+        <Card className="w-full max-w-md relative border-2 border-primary/10 shadow-[0_30px_80px_-20px_rgba(13,27,42,0.25)] rounded-none">
+          <div className="mining-rule" />
+          <CardHeader className="space-y-3 pt-8">
+            {/* mobile-only brand */}
+            <div className="lg:hidden mx-auto rounded-none px-4 py-3 border border-accent/30" style={{ backgroundColor: "#0d1b2a" }}>
+              <img src={reefLogo.url} alt="R.E.E.F" className="h-10 w-auto mx-auto" />
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="h-px flex-1 bg-primary/20" />
+              <span className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Access Terminal</span>
+              <div className="h-px flex-1 bg-primary/20" />
+            </div>
+            <CardTitle className="text-display text-3xl text-center">Sign in to Reef Ops</CardTitle>
+            <CardDescription className="text-center text-xs tracking-[0.15em] uppercase">
+              Authorised personnel only
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="pb-8">
+            <Tabs defaultValue="login">
+              <TabsList className="grid w-full grid-cols-2 rounded-none bg-secondary/60">
+                <TabsTrigger value="login" className="rounded-none tracking-[0.15em] uppercase text-xs">Sign in</TabsTrigger>
+                <TabsTrigger value="signup" className="rounded-none tracking-[0.15em] uppercase text-xs">Register</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="login" className="space-y-4 mt-6">
+                <form onSubmit={onLogin} className="space-y-4">
+                  <div className="space-y-1.5">
+                    <Label className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Email</Label>
+                    <Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+                           className="rounded-none h-11 border-primary/20 focus-visible:border-accent" placeholder="you@reef.co" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Password</Label>
+                    <Input type="password" required value={password} onChange={(e) => setPassword(e.target.value)}
+                           className="rounded-none h-11 border-primary/20 focus-visible:border-accent" placeholder="••••••••" />
+                  </div>
+                  <Button type="submit" disabled={loading}
+                          className="w-full h-11 rounded-none bg-accent text-accent-foreground hover:bg-accent/90 tracking-[0.2em] uppercase text-xs font-semibold">
+                    {loading ? "Verifying…" : "Enter Site"}
+                  </Button>
+                </form>
+              </TabsContent>
+
+              <TabsContent value="signup" className="space-y-4 mt-6">
+                <form onSubmit={onSignup} className="space-y-3">
+                  <div className="space-y-1.5">
+                    <Label className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Full name</Label>
+                    <Input required value={fullName} onChange={(e) => setFullName(e.target.value)} className="rounded-none h-11 border-primary/20" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Email</Label>
+                    <Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="rounded-none h-11 border-primary/20" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Password</Label>
+                    <Input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="rounded-none h-11 border-primary/20" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Role</Label>
+                    <Select value={signupRole} onValueChange={(v) => setSignupRole(v as any)}>
+                      <SelectTrigger className="rounded-none h-11 border-primary/20"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="worker">Worker — mobile logging</SelectItem>
+                        <SelectItem value="manager">Manager — full dashboard</SelectItem>
+                        <SelectItem value="owner">Owner — full dashboard</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button type="submit" disabled={loading}
+                          className="w-full h-11 rounded-none bg-accent text-accent-foreground hover:bg-accent/90 tracking-[0.2em] uppercase text-xs font-semibold">
+                    {loading ? "Creating…" : "Request Access"}
+                  </Button>
+                </form>
+              </TabsContent>
+            </Tabs>
+
+            <div className="relative my-5">
+              <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-primary/15" /></div>
+              <div className="relative flex justify-center"><span className="bg-card px-3 text-[10px] tracking-[0.3em] uppercase text-muted-foreground">or</span></div>
+            </div>
+            <Button variant="outline" className="w-full h-11 rounded-none border-primary/20 tracking-[0.15em] uppercase text-xs" onClick={onGoogle}>
+              Continue with Google
+            </Button>
+
+            <p className="mt-6 text-center text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
+              Reef.co · Farm 43 Hekpoort
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
