@@ -7,9 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "sonner";
-import { Fuel } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
+import reefLogo from "@/assets/reef-logo.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -71,14 +71,17 @@ function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center space-y-3">
-          <div className="mx-auto w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
-            <Fuel className="w-6 h-6 text-primary-foreground" />
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
+         style={{ background: "linear-gradient(180deg, oklch(0.18 0.03 250) 0%, oklch(0.13 0.025 250) 100%)" }}>
+      <div className="absolute inset-0 opacity-[0.07] pointer-events-none"
+           style={{ backgroundImage: "repeating-linear-gradient(135deg, #c9a227 0 1px, transparent 1px 14px)" }} />
+      <Card className="w-full max-w-md relative border-accent/20 shadow-2xl">
+        <div className="mining-rule" />
+        <CardHeader className="text-center space-y-4 pt-8">
+          <div className="mx-auto rounded-md px-4 py-3" style={{ backgroundColor: "#0d1b2a" }}>
+            <img src={reefLogo.url} alt="R.E.E.F — Resource Energy Engineering Fuels" className="h-14 w-auto mx-auto" />
           </div>
-          <CardTitle className="text-2xl">Reef Ops</CardTitle>
-          <CardDescription>Reef Energy Engineering Fuels — operations platform</CardDescription>
+          <CardDescription className="tracking-[0.2em] text-xs uppercase">Operations Platform · Est. 2014</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="login">

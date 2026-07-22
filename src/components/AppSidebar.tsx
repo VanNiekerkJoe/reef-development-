@@ -1,12 +1,13 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, Users, Mountain, Wrench, Boxes, Truck,
-  ClipboardList, ShoppingCart, Fuel, Receipt, AlertOctagon,
+  ClipboardList, ShoppingCart, Receipt, AlertOctagon,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
   SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,
 } from "@/components/ui/sidebar";
+import reefLogo from "@/assets/reef-logo.png.asset.json";
 
 const items = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
@@ -30,17 +31,20 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border">
-        <div className="flex items-center gap-2 px-2 py-1">
-          <div className="w-8 h-8 rounded bg-sidebar-primary flex items-center justify-center shrink-0">
-            <Fuel className="w-4 h-4 text-sidebar-primary-foreground" />
-          </div>
-          {!collapsed && (
-            <div className="min-w-0">
-              <div className="font-bold text-sidebar-foreground truncate">Reef Ops</div>
-              <div className="text-xs text-sidebar-foreground/60 truncate">Energy Engineering Fuels</div>
+        {collapsed ? (
+          <div className="flex items-center justify-center py-2">
+            <div className="w-8 h-8 rounded bg-sidebar-primary/10 flex items-center justify-center border border-sidebar-primary/30">
+              <span className="text-sidebar-primary font-display text-lg leading-none">R</span>
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="px-2 py-3">
+            <img src={reefLogo.url} alt="R.E.E.F" className="h-10 w-auto" />
+            <div className="mt-2 text-[10px] tracking-[0.22em] uppercase text-sidebar-foreground/50">
+              Operations · Est. 2014
+            </div>
+          </div>
+        )}
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
