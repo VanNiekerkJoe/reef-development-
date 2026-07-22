@@ -16,18 +16,20 @@ function WorkerHome() {
   return (
     <div className="space-y-4">
       <div className="py-4">
-        <h1 className="text-2xl font-bold">On-site logging</h1>
-        <p className="text-sm text-muted-foreground">Tap to log activity. Everything syncs to the office instantly.</p>
+        <div className="text-[10px] tracking-[0.28em] uppercase text-muted-foreground mb-1">On-site · Live sync</div>
+        <h1 className="text-display text-3xl font-normal">Log your shift.</h1>
+        <p className="text-sm text-muted-foreground mt-1">One tap. Data hits the office instantly.</p>
+        <div className="mining-rule mt-3 opacity-60" />
       </div>
       <div className="grid grid-cols-2 gap-3">
         {tiles.map((t) => (
           <Link
             key={t.to}
             to={t.to}
-            className={`${t.color} rounded-2xl p-6 flex flex-col items-center justify-center gap-3 aspect-square shadow-md active:scale-95 transition-transform`}
+            className={`${t.color} rounded-2xl p-6 flex flex-col items-center justify-center gap-3 aspect-square shadow-lg active:scale-95 transition-transform border border-white/10`}
           >
             <t.icon className="w-10 h-10" />
-            <span className="text-base font-semibold text-center leading-tight">{t.label}</span>
+            <span className="text-base font-semibold text-center leading-tight tracking-wider uppercase">{t.label}</span>
           </Link>
         ))}
       </div>
