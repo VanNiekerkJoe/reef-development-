@@ -77,7 +77,7 @@ function AuthPage() {
       style={{ background: "#0d1b2a" }}
     >
       {/* LEFT — brand panel */}
-      <div className="relative hidden lg:flex flex-col justify-between p-12 text-primary-foreground overflow-hidden"
+      <div className="relative hidden lg:flex flex-col justify-between p-12 text-primary-foreground overflow-hidden animate-fade-in-soft"
            style={{ background: "linear-gradient(155deg, #0d1b2a 0%, #0a1522 55%, #05080e 100%)" }}>
         {/* diagonal industrial hatch */}
         <div className="absolute inset-0 opacity-[0.08] pointer-events-none"
@@ -88,13 +88,13 @@ function AuthPage() {
         <div className="absolute bottom-6 left-6 h-2 w-2 rounded-full bg-accent/60" />
         <div className="absolute bottom-6 right-6 h-2 w-2 rounded-full bg-accent/60" />
 
-        <div className="relative">
-          <img src={reefLogo.url} alt="R.E.E.F — Resource Energy Engineering Fuels" className="h-20 w-auto" />
+        <div className="relative animate-fade-up">
+          <img src={reefLogo.url} alt="R.E.E.F — Resource Energy Engineering Fuels" className="h-24 w-auto transition-transform hover:scale-[1.02]" />
           <div className="mining-rule mt-8 max-w-[220px]" />
           <p className="mt-6 text-[10px] tracking-[0.35em] uppercase text-accent/80">Est. 2014 · Mpumalanga</p>
         </div>
 
-        <div className="relative space-y-6 max-w-md">
+        <div className="relative space-y-6 max-w-md animate-fade-up" style={{ animationDelay: "120ms" }}>
           <h1 className="text-display text-5xl leading-[1.05] text-white">
             Move earth.<br/>Move numbers.
           </h1>
@@ -105,15 +105,16 @@ function AuthPage() {
         </div>
 
         <div className="relative grid grid-cols-2 gap-4 max-w-md">
-          {[
+          {([
             { icon: Pickaxe, label: "Live stock control" },
             { icon: HardHat, label: "Field-first logging" },
             { icon: TrendingUp, label: "Rand per ton" },
             { icon: ShieldCheck, label: "Role-based access" },
-          ].map(({ icon: Icon, label }) => (
-            <div key={label} className="flex items-center gap-3 text-xs tracking-[0.15em] uppercase text-white/75"
-                 style={{fontFamily:"var(--font-sans)", fontWeight:500}}>
-              <div className="h-8 w-8 grid place-items-center border border-accent/40 text-accent">
+          ]).map(({ icon: Icon, label }, i) => (
+            <div key={label}
+                 className="flex items-center gap-3 text-xs tracking-[0.15em] uppercase text-white/75 animate-fade-up hover:text-white transition-colors"
+                 style={{ animationDelay: `${240 + i * 80}ms`, fontFamily:"var(--font-sans)", fontWeight:500 }}>
+              <div className="h-8 w-8 grid place-items-center border border-accent/40 text-accent transition-all hover:bg-accent/10 hover:scale-105">
                 <Icon className="h-4 w-4" strokeWidth={1.75} />
               </div>
               {label}
@@ -123,18 +124,18 @@ function AuthPage() {
       </div>
 
       {/* RIGHT — form panel */}
-      <div className="relative flex items-center justify-center p-6 sm:p-10 bg-background">
+      <div className="relative flex items-center justify-center p-4 sm:p-6 md:p-10 bg-background">
         <div className="absolute inset-0 opacity-[0.5] pointer-events-none"
              style={{ backgroundImage:
                "radial-gradient(oklch(0.75 0.14 85 / 0.06) 1px, transparent 1px), radial-gradient(oklch(0.18 0.03 250 / 0.04) 1px, transparent 1px)",
                backgroundSize: "22px 22px, 22px 22px",
                backgroundPosition: "0 0, 11px 11px" }} />
-        <Card className="w-full max-w-md relative border-2 border-primary/10 shadow-[0_30px_80px_-20px_rgba(13,27,42,0.25)] rounded-none">
+        <Card className="w-full max-w-md relative border-2 border-primary/10 shadow-[0_30px_80px_-20px_rgba(13,27,42,0.25)] rounded-none animate-scale-in-soft">
           <div className="mining-rule" />
           <CardHeader className="space-y-3 pt-8">
             {/* mobile-only brand */}
-            <div className="lg:hidden mx-auto rounded-none px-4 py-3 border border-accent/30" style={{ backgroundColor: "#0d1b2a" }}>
-              <img src={reefLogo.url} alt="R.E.E.F" className="h-10 w-auto mx-auto" />
+            <div className="lg:hidden mx-auto rounded-none px-4 py-3 border border-accent/30 animate-fade-up" style={{ backgroundColor: "#0d1b2a" }}>
+              <img src={reefLogo.url} alt="R.E.E.F" className="h-12 w-auto mx-auto" />
             </div>
             <div className="flex items-center gap-3">
               <div className="h-px flex-1 bg-primary/20" />
