@@ -34,13 +34,13 @@ export function AppSidebar() {
       <SidebarHeader className="border-b border-sidebar-border">
         {collapsed ? (
           <div className="flex items-center justify-center py-2">
-            <div className="w-8 h-8 rounded bg-sidebar-primary/10 flex items-center justify-center border border-sidebar-primary/30">
+            <div className="w-8 h-8 rounded bg-sidebar-primary/10 flex items-center justify-center border border-sidebar-primary/30 transition-all hover:bg-sidebar-primary/20 hover:scale-105">
               <span className="text-sidebar-primary font-display text-lg leading-none">R</span>
             </div>
           </div>
         ) : (
-          <div className="px-2 py-3">
-            <img src={reefLogo.url} alt="R.E.E.F" className="h-10 w-auto" />
+          <div className="px-2 py-3 animate-fade-in-soft">
+            <img src={reefLogo.url} alt="R.E.E.F" className="h-10 w-auto transition-transform hover:scale-[1.02]" />
             <div className="mt-2 text-[10px] tracking-[0.22em] uppercase text-sidebar-foreground/50">
               Operations · Est. 2014
             </div>
@@ -52,13 +52,13 @@ export function AppSidebar() {
           <SidebarGroupLabel>Operations</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => {
+              {items.map((item, i) => {
                 const active = currentPath === item.url || currentPath.startsWith(item.url + "/");
                 return (
-                  <SidebarMenuItem key={item.url}>
+                  <SidebarMenuItem key={item.url} className="animate-fade-up" style={{ animationDelay: `${i * 25}ms` }}>
                     <SidebarMenuButton asChild isActive={active}>
-                      <Link to={item.url} className="flex items-center gap-2">
-                        <item.icon className="w-4 h-4 shrink-0" />
+                      <Link to={item.url} className="flex items-center gap-2 group">
+                        <item.icon className="w-4 h-4 shrink-0 transition-transform group-hover:scale-110 group-hover:text-sidebar-primary" />
                         {!collapsed && <span>{item.title}</span>}
                       </Link>
                     </SidebarMenuButton>
