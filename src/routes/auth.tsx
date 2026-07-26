@@ -125,7 +125,7 @@ function AuthPage() {
           </p>
         </div>
 
-        <div className="relative space-y-8">
+        <div className="relative space-y-6">
           {/* stat rail */}
           <div className="grid grid-cols-2 xl:grid-cols-4 border-t border-l border-accent/20">
             {STATS.map(({ icon: Icon, value, label, sub }, i) => (
@@ -143,7 +143,7 @@ function AuthPage() {
           </div>
 
           {/* capability chips */}
-          <div className="flex flex-wrap gap-x-6 gap-y-3 max-w-lg">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 max-w-lg">
             {([
               { icon: Pickaxe, label: "Live stock control" },
               { icon: HardHat, label: "Field-first logging" },
