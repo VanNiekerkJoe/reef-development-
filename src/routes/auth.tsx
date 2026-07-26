@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import reefLogo from "@/assets/reef-logo.png.asset.json";
-import { Pickaxe, HardHat, ShieldCheck, TrendingUp, Mountain, Users, Building2, Gauge } from "lucide-react";
+import { Mountain, Users, Building2, Gauge } from "lucide-react";
 
 const STATS = [
   { icon: Users, value: "42", label: "Active crew", sub: "on contract" },
