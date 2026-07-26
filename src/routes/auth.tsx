@@ -111,6 +111,11 @@ function AuthPage() {
         </div>
 
         <div className="relative space-y-6 max-w-md animate-fade-up" style={{ animationDelay: "120ms" }}>
+          <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-accent/90"
+               style={{ fontFamily: "var(--font-sans)", fontWeight: 600 }}>
+            <span className="reef-live-dot h-1.5 w-1.5 rounded-full bg-accent" />
+            Operations online
+          </div>
           <h1 className="text-display text-5xl leading-[1.05] text-white">
             Move earth.<br/>Move numbers.
           </h1>
@@ -120,22 +125,51 @@ function AuthPage() {
           </p>
         </div>
 
-        <div className="relative grid grid-cols-2 gap-4 max-w-md">
-          {([
-            { icon: Pickaxe, label: "Live stock control" },
-            { icon: HardHat, label: "Field-first logging" },
-            { icon: TrendingUp, label: "Rand per ton" },
-            { icon: ShieldCheck, label: "Role-based access" },
-          ]).map(({ icon: Icon, label }, i) => (
-            <div key={label}
-                 className="flex items-center gap-3 text-xs tracking-[0.15em] uppercase text-white/75 animate-fade-up hover:text-white transition-colors"
-                 style={{ animationDelay: `${240 + i * 80}ms`, fontFamily:"var(--font-sans)", fontWeight:500 }}>
-              <div className="h-8 w-8 grid place-items-center border border-accent/40 text-accent transition-all hover:bg-accent/10 hover:scale-105">
-                <Icon className="h-4 w-4" strokeWidth={1.75} />
+        <div className="relative space-y-8">
+          {/* stat rail */}
+          <div className="grid grid-cols-2 xl:grid-cols-4 border-t border-l border-accent/20">
+            {STATS.map(({ icon: Icon, value, label, sub }, i) => (
+              <div key={label}
+                   className="reef-scanline border-b border-r border-accent/20 p-4 animate-fade-up transition-colors hover:bg-accent/[0.06]"
+                   style={{ animationDelay: `${200 + i * 70}ms` }}>
+                <Icon className="h-4 w-4 text-accent/80 mb-3" strokeWidth={1.75} />
+                <div className="num-mono text-2xl leading-none text-white">{value}</div>
+                <div className="mt-2 text-[10px] tracking-[0.22em] uppercase text-white/70"
+                     style={{ fontFamily: "var(--font-sans)", fontWeight: 600 }}>{label}</div>
+                <div className="text-[9px] tracking-[0.2em] uppercase text-accent/60"
+                     style={{ fontFamily: "var(--font-sans)" }}>{sub}</div>
               </div>
-              {label}
+            ))}
+          </div>
+
+          {/* capability chips */}
+          <div className="flex flex-wrap gap-x-6 gap-y-3 max-w-lg">
+            {([
+              { icon: Pickaxe, label: "Live stock control" },
+              { icon: HardHat, label: "Field-first logging" },
+              { icon: TrendingUp, label: "Rand per ton" },
+              { icon: ShieldCheck, label: "Role-based access" },
+            ]).map(({ icon: Icon, label }, i) => (
+              <div key={label}
+                   className="flex items-center gap-2 text-[10px] tracking-[0.18em] uppercase text-white/60 animate-fade-up hover:text-accent transition-colors"
+                   style={{ animationDelay: `${480 + i * 60}ms`, fontFamily:"var(--font-sans)", fontWeight:500 }}>
+                <Icon className="h-3.5 w-3.5 text-accent/70" strokeWidth={1.75} />
+                {label}
+              </div>
+            ))}
+          </div>
+
+          {/* live ticker */}
+          <div className="relative overflow-hidden border-y border-accent/20 py-2.5">
+            <div className="reef-marquee gap-10 pr-10">
+              {[...TICKER, ...TICKER].map((t, i) => (
+                <span key={i}
+                      className="whitespace-nowrap num-mono text-[10px] tracking-[0.18em] uppercase text-white/55">
+                  <span className="text-accent/70 mr-2">◆</span>{t}
+                </span>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
 
