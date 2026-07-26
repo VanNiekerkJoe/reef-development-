@@ -10,7 +10,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import reefLogo from "@/assets/reef-logo.png.asset.json";
-import { Pickaxe, HardHat, ShieldCheck, TrendingUp } from "lucide-react";
+import { Mountain, Users, Building2, Gauge } from "lucide-react";
+
+const STATS = [
+  { icon: Users, value: "42", label: "Active crew", sub: "on contract" },
+  { icon: Building2, value: "03", label: "Client mines", sub: "Mpumalanga" },
+  { icon: Mountain, value: "11", label: "Years running", sub: "since 2014" },
+  { icon: Gauge, value: "24/7", label: "Plant uptime", sub: "monitored" },
+] as const;
+
+const TICKER = [
+  "MAGNETITE · 18.4 t on hand",
+  "DMS PLANT · running",
+  "NORTH PIT · 1 240 t MTD",
+  "R 148.20 / TON",
+  "WASH PLANT · service due 9d",
+  "SOUTH PIT · 0 downtime 72h",
+];
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -77,7 +93,7 @@ function AuthPage() {
       style={{ background: "#0d1b2a" }}
     >
       {/* LEFT — brand panel */}
-      <div className="relative hidden lg:flex flex-col justify-between p-12 text-primary-foreground overflow-hidden animate-fade-in-soft"
+      <div className="relative hidden lg:flex flex-col justify-between p-10 xl:p-12 gap-8 text-primary-foreground overflow-hidden animate-fade-in-soft"
            style={{ background: "linear-gradient(155deg, #0d1b2a 0%, #0a1522 55%, #05080e 100%)" }}>
         {/* diagonal industrial hatch */}
         <div className="absolute inset-0 opacity-[0.08] pointer-events-none"
@@ -95,6 +111,11 @@ function AuthPage() {
         </div>
 
         <div className="relative space-y-6 max-w-md animate-fade-up" style={{ animationDelay: "120ms" }}>
+          <div className="flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-accent/90"
+               style={{ fontFamily: "var(--font-sans)", fontWeight: 600 }}>
+            <span className="reef-live-dot h-1.5 w-1.5 rounded-full bg-accent" />
+            Operations online
+          </div>
           <h1 className="text-display text-5xl leading-[1.05] text-white">
             Move earth.<br/>Move numbers.
           </h1>
@@ -104,22 +125,34 @@ function AuthPage() {
           </p>
         </div>
 
-        <div className="relative grid grid-cols-2 gap-4 max-w-md">
-          {([
-            { icon: Pickaxe, label: "Live stock control" },
-            { icon: HardHat, label: "Field-first logging" },
-            { icon: TrendingUp, label: "Rand per ton" },
-            { icon: ShieldCheck, label: "Role-based access" },
-          ]).map(({ icon: Icon, label }, i) => (
-            <div key={label}
-                 className="flex items-center gap-3 text-xs tracking-[0.15em] uppercase text-white/75 animate-fade-up hover:text-white transition-colors"
-                 style={{ animationDelay: `${240 + i * 80}ms`, fontFamily:"var(--font-sans)", fontWeight:500 }}>
-              <div className="h-8 w-8 grid place-items-center border border-accent/40 text-accent transition-all hover:bg-accent/10 hover:scale-105">
-                <Icon className="h-4 w-4" strokeWidth={1.75} />
+        <div className="relative space-y-6">
+          {/* stat rail */}
+          <div className="grid grid-cols-2 xl:grid-cols-4 border-t border-l border-accent/20">
+            {STATS.map(({ icon: Icon, value, label, sub }, i) => (
+              <div key={label}
+                   className="reef-scanline border-b border-r border-accent/20 p-4 animate-fade-up transition-colors hover:bg-accent/[0.06]"
+                   style={{ animationDelay: `${200 + i * 70}ms` }}>
+                <Icon className="h-4 w-4 text-accent/80 mb-3" strokeWidth={1.75} />
+                <div className="num-mono text-2xl leading-none text-white">{value}</div>
+                <div className="mt-2 text-[10px] tracking-[0.22em] uppercase text-white/70"
+                     style={{ fontFamily: "var(--font-sans)", fontWeight: 600 }}>{label}</div>
+                <div className="text-[9px] tracking-[0.2em] uppercase text-accent/60"
+                     style={{ fontFamily: "var(--font-sans)" }}>{sub}</div>
               </div>
-              {label}
+            ))}
+          </div>
+
+          {/* live ticker */}
+          <div className="relative overflow-hidden border-y border-accent/20 py-2.5">
+            <div className="reef-marquee gap-10 pr-10">
+              {[...TICKER, ...TICKER].map((t, i) => (
+                <span key={i}
+                      className="whitespace-nowrap num-mono text-[10px] tracking-[0.18em] uppercase text-white/55">
+                  <span className="text-accent/70 mr-2">◆</span>{t}
+                </span>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
 
@@ -213,6 +246,16 @@ function AuthPage() {
             <Button variant="outline" className="w-full h-11 rounded-none border-primary/20 tracking-[0.15em] uppercase text-xs" onClick={onGoogle}>
               Continue with Google
             </Button>
+
+            {/* mobile stat strip */}
+            <div className="lg:hidden mt-6 grid grid-cols-4 border-t border-l border-primary/15">
+              {STATS.map(({ value, label }) => (
+                <div key={label} className="border-b border-r border-primary/15 py-3 text-center">
+                  <div className="num-mono text-base text-foreground">{value}</div>
+                  <div className="text-[8px] tracking-[0.15em] uppercase text-muted-foreground mt-1">{label}</div>
+                </div>
+              ))}
+            </div>
 
             <p className="mt-6 text-center text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
               Reef.co · Farm 43 Hekpoort
