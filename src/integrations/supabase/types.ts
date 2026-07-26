@@ -649,6 +649,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_manager: { Args: { _uid: string }; Returns: boolean }
     }
     Enums: {
       app_role:
