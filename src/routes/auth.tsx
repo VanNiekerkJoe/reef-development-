@@ -93,7 +93,7 @@ function AuthPage() {
       style={{ background: "#0d1b2a" }}
     >
       {/* LEFT — brand panel */}
-      <div className="relative hidden lg:flex flex-col justify-between p-12 text-primary-foreground overflow-hidden animate-fade-in-soft"
+      <div className="relative hidden lg:flex flex-col justify-between p-10 xl:p-12 gap-8 text-primary-foreground overflow-hidden animate-fade-in-soft"
            style={{ background: "linear-gradient(155deg, #0d1b2a 0%, #0a1522 55%, #05080e 100%)" }}>
         {/* diagonal industrial hatch */}
         <div className="absolute inset-0 opacity-[0.08] pointer-events-none"
