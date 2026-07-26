@@ -10,7 +10,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import reefLogo from "@/assets/reef-logo.png.asset.json";
-import { Pickaxe, HardHat, ShieldCheck, TrendingUp } from "lucide-react";
+import { Pickaxe, HardHat, ShieldCheck, TrendingUp, Mountain, Users, Building2, Gauge } from "lucide-react";
+
+const STATS = [
+  { icon: Users, value: "42", label: "Active crew", sub: "on contract" },
+  { icon: Building2, value: "03", label: "Client mines", sub: "Mpumalanga" },
+  { icon: Mountain, value: "11", label: "Years running", sub: "since 2014" },
+  { icon: Gauge, value: "24/7", label: "Plant uptime", sub: "monitored" },
+] as const;
+
+const TICKER = [
+  "MAGNETITE · 18.4 t on hand",
+  "DMS PLANT · running",
+  "NORTH PIT · 1 240 t MTD",
+  "R 148.20 / TON",
+  "WASH PLANT · service due 9d",
+  "SOUTH PIT · 0 downtime 72h",
+];
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
