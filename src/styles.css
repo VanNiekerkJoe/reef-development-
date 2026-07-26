@@ -246,3 +246,45 @@
   pointer-events: none;
 }
 .reef-tile:hover::after { opacity: 1; animation: reef-shimmer 1.2s ease forwards; }
+
+/* ============ Auth / boutique industrial ============ */
+@keyframes reef-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes reef-scan {
+  0% { transform: translateY(-100%); opacity: 0; }
+  35% { opacity: 1; }
+  100% { transform: translateY(1200%); opacity: 0; }
+}
+@keyframes reef-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.reef-marquee { display: flex; width: max-content; animation: reef-marquee 34s linear infinite; }
+.reef-marquee:hover { animation-play-state: paused; }
+
+@utility reef-scanline {
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 30%;
+    background: linear-gradient(180deg, transparent, color-mix(in oklab, var(--accent) 10%, transparent), transparent);
+    animation: reef-scan 9s linear infinite;
+    pointer-events: none;
+  }
+}
+
+@utility reef-live-dot {
+  animation: reef-blink 1.8s ease-in-out infinite;
+}
+
+@utility num-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
