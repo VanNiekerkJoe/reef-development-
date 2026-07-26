@@ -142,23 +142,6 @@ function AuthPage() {
             ))}
           </div>
 
-          {/* capability chips */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 max-w-lg">
-            {([
-              { icon: Pickaxe, label: "Live stock control" },
-              { icon: HardHat, label: "Field-first logging" },
-              { icon: TrendingUp, label: "Rand per ton" },
-              { icon: ShieldCheck, label: "Role-based access" },
-            ]).map(({ icon: Icon, label }, i) => (
-              <div key={label}
-                   className="flex items-center gap-2 text-[10px] tracking-[0.18em] uppercase text-white/60 animate-fade-up hover:text-accent transition-colors"
-                   style={{ animationDelay: `${480 + i * 60}ms`, fontFamily:"var(--font-sans)", fontWeight:500 }}>
-                <Icon className="h-3.5 w-3.5 text-accent/70" strokeWidth={1.75} />
-                {label}
-              </div>
-            ))}
-          </div>
-
           {/* live ticker */}
           <div className="relative overflow-hidden border-y border-accent/20 py-2.5">
             <div className="reef-marquee gap-10 pr-10">
