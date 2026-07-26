@@ -264,6 +264,16 @@ function AuthPage() {
               Continue with Google
             </Button>
 
+            {/* mobile stat strip */}
+            <div className="lg:hidden mt-6 grid grid-cols-4 border-t border-l border-primary/15">
+              {STATS.map(({ value, label }) => (
+                <div key={label} className="border-b border-r border-primary/15 py-3 text-center">
+                  <div className="num-mono text-base text-foreground">{value}</div>
+                  <div className="text-[8px] tracking-[0.15em] uppercase text-muted-foreground mt-1">{label}</div>
+                </div>
+              ))}
+            </div>
+
             <p className="mt-6 text-center text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
               Reef.co · Farm 43 Hekpoort
             </p>
