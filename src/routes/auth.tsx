@@ -10,6 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import reefLogo from "@/assets/reef-logo.png.asset.json";
+import reefVideo from "@/assets/reef-login.mp4.asset.json";
+import reefPoster from "@/assets/reef-login-poster.jpg.asset.json";
 import { Mountain, Users, Building2, Gauge } from "lucide-react";
 
 const STATS = [
