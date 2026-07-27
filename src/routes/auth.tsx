@@ -176,6 +176,18 @@ function AuthPage() {
 
       {/* RIGHT — form panel */}
       <div className="relative flex items-center justify-center p-4 sm:p-6 md:p-10 bg-background">
+        {/* mobile: same footage as an ambient backdrop */}
+        <video
+          className="reef-video lg:hidden absolute inset-0 h-full w-full object-cover opacity-[0.18]"
+          src={reefVideo.url}
+          poster={reefPoster.url}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="none"
+          aria-hidden="true"
+        />
         <div className="absolute inset-0 opacity-[0.5] pointer-events-none"
              style={{ backgroundImage:
                "radial-gradient(oklch(0.75 0.14 85 / 0.06) 1px, transparent 1px), radial-gradient(oklch(0.18 0.03 250 / 0.04) 1px, transparent 1px)",
