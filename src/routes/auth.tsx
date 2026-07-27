@@ -97,6 +97,22 @@ function AuthPage() {
       {/* LEFT — brand panel */}
       <div className="relative hidden lg:flex flex-col justify-between p-10 xl:p-12 gap-8 text-primary-foreground overflow-hidden animate-fade-in-soft"
            style={{ background: "linear-gradient(155deg, #0d1b2a 0%, #0a1522 55%, #05080e 100%)" }}>
+        {/* looping site footage */}
+        <video
+          className="reef-video absolute inset-0 h-full w-full object-cover"
+          src={reefVideo.url}
+          poster={reefPoster.url}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 pointer-events-none"
+             style={{ background: "linear-gradient(155deg, rgba(13,27,42,0.82) 0%, rgba(10,21,34,0.88) 55%, rgba(5,8,14,0.95) 100%)" }} />
+        <div className="reef-sweep absolute inset-0 pointer-events-none overflow-hidden" />
+        <div className="reef-grain absolute inset-0 pointer-events-none overflow-hidden" />
         {/* diagonal industrial hatch */}
         <div className="absolute inset-0 opacity-[0.08] pointer-events-none"
              style={{ backgroundImage: "repeating-linear-gradient(135deg, #c9a227 0 1px, transparent 1px 16px)" }} />
