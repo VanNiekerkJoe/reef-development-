@@ -10,6 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import reefLogo from "@/assets/reef-logo.png.asset.json";
+import reefVideo from "@/assets/reef-login.mp4.asset.json";
+import reefPoster from "@/assets/reef-login-poster.jpg.asset.json";
 import { Mountain, Users, Building2, Gauge } from "lucide-react";
 
 const STATS = [
@@ -95,6 +97,22 @@ function AuthPage() {
       {/* LEFT — brand panel */}
       <div className="relative hidden lg:flex flex-col justify-between p-10 xl:p-12 gap-8 text-primary-foreground overflow-hidden animate-fade-in-soft"
            style={{ background: "linear-gradient(155deg, #0d1b2a 0%, #0a1522 55%, #05080e 100%)" }}>
+        {/* looping site footage */}
+        <video
+          className="reef-video absolute inset-0 h-full w-full object-cover"
+          src={reefVideo.url}
+          poster={reefPoster.url}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 pointer-events-none"
+             style={{ background: "linear-gradient(155deg, rgba(13,27,42,0.82) 0%, rgba(10,21,34,0.88) 55%, rgba(5,8,14,0.95) 100%)" }} />
+        <div className="reef-sweep absolute inset-0 pointer-events-none overflow-hidden" />
+        <div className="reef-grain absolute inset-0 pointer-events-none overflow-hidden" />
         {/* diagonal industrial hatch */}
         <div className="absolute inset-0 opacity-[0.08] pointer-events-none"
              style={{ backgroundImage: "repeating-linear-gradient(135deg, #c9a227 0 1px, transparent 1px 16px)" }} />
@@ -158,6 +176,18 @@ function AuthPage() {
 
       {/* RIGHT — form panel */}
       <div className="relative flex items-center justify-center p-4 sm:p-6 md:p-10 bg-background">
+        {/* mobile: same footage as an ambient backdrop */}
+        <video
+          className="reef-video lg:hidden absolute inset-0 h-full w-full object-cover opacity-[0.18]"
+          src={reefVideo.url}
+          poster={reefPoster.url}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="none"
+          aria-hidden="true"
+        />
         <div className="absolute inset-0 opacity-[0.5] pointer-events-none"
              style={{ backgroundImage:
                "radial-gradient(oklch(0.75 0.14 85 / 0.06) 1px, transparent 1px), radial-gradient(oklch(0.18 0.03 250 / 0.04) 1px, transparent 1px)",
