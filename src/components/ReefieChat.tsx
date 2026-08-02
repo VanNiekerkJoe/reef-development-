@@ -79,7 +79,7 @@ export function ReefieChat({ threadId, initialMessages }: { threadId: string; in
           ) : (
             messages.map((m) => (
               <Message from={m.role} key={m.id}>
-                <MessageContent variant={m.role === "user" ? "contained" : "flat"}>
+                <MessageContent>
                   {m.parts.map((part, i) => {
                     if (part.type === "text") {
                       return <MessageResponse key={i}>{part.text}</MessageResponse>;
