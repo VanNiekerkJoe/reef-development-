@@ -18,6 +18,7 @@ import { Route as WorkerLogUsageRouteImport } from './routes/worker/log-usage'
 import { Route as WorkerLogRepairRouteImport } from './routes/worker/log-repair'
 import { Route as WorkerLogProductionRouteImport } from './routes/worker/log-production'
 import { Route as WorkerLogDowntimeRouteImport } from './routes/worker/log-downtime'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedSuppliersRouteImport } from './routes/_authenticated/suppliers'
 import { Route as AuthenticatedStaticCostsRouteImport } from './routes/_authenticated/static-costs'
 import { Route as AuthenticatedPurchaseOrdersRouteImport } from './routes/_authenticated/purchase-orders'
@@ -30,6 +31,9 @@ import { Route as AuthenticatedDowntimeRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedClientsRouteImport } from './routes/_authenticated/clients'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
+import { Route as AuthenticatedReefieRouteRouteImport } from './routes/_authenticated/reefie/route'
+import { Route as AuthenticatedReefieIndexRouteImport } from './routes/_authenticated/reefie/index'
+import { Route as AuthenticatedReefieThreadIdRouteImport } from './routes/_authenticated/reefie/$threadId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -74,6 +78,11 @@ const WorkerLogDowntimeRoute = WorkerLogDowntimeRouteImport.update({
   id: '/log-downtime',
   path: '/log-downtime',
   getParentRoute: () => WorkerRouteRoute,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedSuppliersRoute = AuthenticatedSuppliersRouteImport.update({
   id: '/suppliers',
@@ -138,11 +147,30 @@ const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedReefieRouteRoute =
+  AuthenticatedReefieRouteRouteImport.update({
+    id: '/reefie',
+    path: '/reefie',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReefieIndexRoute =
+  AuthenticatedReefieIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedReefieRouteRoute,
+  } as any)
+const AuthenticatedReefieThreadIdRoute =
+  AuthenticatedReefieThreadIdRouteImport.update({
+    id: '/$threadId',
+    path: '/$threadId',
+    getParentRoute: () => AuthenticatedReefieRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/worker': typeof WorkerRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/reefie': typeof AuthenticatedReefieRouteRouteWithChildren
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/clients': typeof AuthenticatedClientsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -155,11 +183,14 @@ export interface FileRoutesByFullPath {
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
   '/static-costs': typeof AuthenticatedStaticCostsRoute
   '/suppliers': typeof AuthenticatedSuppliersRoute
+  '/api/chat': typeof ApiChatRoute
   '/worker/log-downtime': typeof WorkerLogDowntimeRoute
   '/worker/log-production': typeof WorkerLogProductionRoute
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker/': typeof WorkerIndexRoute
+  '/reefie/$threadId': typeof AuthenticatedReefieThreadIdRoute
+  '/reefie/': typeof AuthenticatedReefieIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -176,11 +207,14 @@ export interface FileRoutesByTo {
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
   '/static-costs': typeof AuthenticatedStaticCostsRoute
   '/suppliers': typeof AuthenticatedSuppliersRoute
+  '/api/chat': typeof ApiChatRoute
   '/worker/log-downtime': typeof WorkerLogDowntimeRoute
   '/worker/log-production': typeof WorkerLogProductionRoute
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker': typeof WorkerIndexRoute
+  '/reefie/$threadId': typeof AuthenticatedReefieThreadIdRoute
+  '/reefie': typeof AuthenticatedReefieIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -188,6 +222,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/worker': typeof WorkerRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/reefie': typeof AuthenticatedReefieRouteRouteWithChildren
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/clients': typeof AuthenticatedClientsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -200,11 +235,14 @@ export interface FileRoutesById {
   '/_authenticated/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
   '/_authenticated/static-costs': typeof AuthenticatedStaticCostsRoute
   '/_authenticated/suppliers': typeof AuthenticatedSuppliersRoute
+  '/api/chat': typeof ApiChatRoute
   '/worker/log-downtime': typeof WorkerLogDowntimeRoute
   '/worker/log-production': typeof WorkerLogProductionRoute
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker/': typeof WorkerIndexRoute
+  '/_authenticated/reefie/$threadId': typeof AuthenticatedReefieThreadIdRoute
+  '/_authenticated/reefie/': typeof AuthenticatedReefieIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -212,6 +250,7 @@ export interface FileRouteTypes {
     | '/'
     | '/worker'
     | '/auth'
+    | '/reefie'
     | '/analytics'
     | '/clients'
     | '/dashboard'
@@ -224,11 +263,14 @@ export interface FileRouteTypes {
     | '/purchase-orders'
     | '/static-costs'
     | '/suppliers'
+    | '/api/chat'
     | '/worker/log-downtime'
     | '/worker/log-production'
     | '/worker/log-repair'
     | '/worker/log-usage'
     | '/worker/'
+    | '/reefie/$threadId'
+    | '/reefie/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -245,17 +287,21 @@ export interface FileRouteTypes {
     | '/purchase-orders'
     | '/static-costs'
     | '/suppliers'
+    | '/api/chat'
     | '/worker/log-downtime'
     | '/worker/log-production'
     | '/worker/log-repair'
     | '/worker/log-usage'
     | '/worker'
+    | '/reefie/$threadId'
+    | '/reefie'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/worker'
     | '/auth'
+    | '/_authenticated/reefie'
     | '/_authenticated/analytics'
     | '/_authenticated/clients'
     | '/_authenticated/dashboard'
@@ -268,11 +314,14 @@ export interface FileRouteTypes {
     | '/_authenticated/purchase-orders'
     | '/_authenticated/static-costs'
     | '/_authenticated/suppliers'
+    | '/api/chat'
     | '/worker/log-downtime'
     | '/worker/log-production'
     | '/worker/log-repair'
     | '/worker/log-usage'
     | '/worker/'
+    | '/_authenticated/reefie/$threadId'
+    | '/_authenticated/reefie/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -280,6 +329,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   WorkerRouteRoute: typeof WorkerRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -346,6 +396,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/worker/log-downtime'
       preLoaderRoute: typeof WorkerLogDowntimeRouteImport
       parentRoute: typeof WorkerRouteRoute
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/suppliers': {
       id: '/_authenticated/suppliers'
@@ -431,10 +488,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/reefie': {
+      id: '/_authenticated/reefie'
+      path: '/reefie'
+      fullPath: '/reefie'
+      preLoaderRoute: typeof AuthenticatedReefieRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reefie/': {
+      id: '/_authenticated/reefie/'
+      path: '/'
+      fullPath: '/reefie/'
+      preLoaderRoute: typeof AuthenticatedReefieIndexRouteImport
+      parentRoute: typeof AuthenticatedReefieRouteRoute
+    }
+    '/_authenticated/reefie/$threadId': {
+      id: '/_authenticated/reefie/$threadId'
+      path: '/$threadId'
+      fullPath: '/reefie/$threadId'
+      preLoaderRoute: typeof AuthenticatedReefieThreadIdRouteImport
+      parentRoute: typeof AuthenticatedReefieRouteRoute
+    }
   }
 }
 
+interface AuthenticatedReefieRouteRouteChildren {
+  AuthenticatedReefieThreadIdRoute: typeof AuthenticatedReefieThreadIdRoute
+  AuthenticatedReefieIndexRoute: typeof AuthenticatedReefieIndexRoute
+}
+
+const AuthenticatedReefieRouteRouteChildren: AuthenticatedReefieRouteRouteChildren =
+  {
+    AuthenticatedReefieThreadIdRoute: AuthenticatedReefieThreadIdRoute,
+    AuthenticatedReefieIndexRoute: AuthenticatedReefieIndexRoute,
+  }
+
+const AuthenticatedReefieRouteRouteWithChildren =
+  AuthenticatedReefieRouteRoute._addFileChildren(
+    AuthenticatedReefieRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedReefieRouteRoute: typeof AuthenticatedReefieRouteRouteWithChildren
   AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
   AuthenticatedClientsRoute: typeof AuthenticatedClientsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
@@ -450,6 +545,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedReefieRouteRoute: AuthenticatedReefieRouteRouteWithChildren,
   AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
   AuthenticatedClientsRoute: AuthenticatedClientsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
@@ -492,6 +588,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   WorkerRouteRoute: WorkerRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
