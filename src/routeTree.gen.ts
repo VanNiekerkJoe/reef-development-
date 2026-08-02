@@ -32,6 +32,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedClientsRouteImport } from './routes/_authenticated/clients'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
 import { Route as AuthenticatedReefieRouteRouteImport } from './routes/_authenticated/reefie/route'
+import { Route as AuthenticatedReefieIndexRouteImport } from './routes/_authenticated/reefie/index'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -151,12 +152,18 @@ const AuthenticatedReefieRouteRoute =
     path: '/reefie',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedReefieIndexRoute =
+  AuthenticatedReefieIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedReefieRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/worker': typeof WorkerRouteRouteWithChildren
   '/auth': typeof AuthRoute
-  '/reefie': typeof AuthenticatedReefieRouteRoute
+  '/reefie': typeof AuthenticatedReefieRouteRouteWithChildren
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/clients': typeof AuthenticatedClientsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -175,11 +182,11 @@ export interface FileRoutesByFullPath {
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker/': typeof WorkerIndexRoute
+  '/reefie/': typeof AuthenticatedReefieIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/reefie': typeof AuthenticatedReefieRouteRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/clients': typeof AuthenticatedClientsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker': typeof WorkerIndexRoute
+  '/reefie': typeof AuthenticatedReefieIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -205,7 +213,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/worker': typeof WorkerRouteRouteWithChildren
   '/auth': typeof AuthRoute
-  '/_authenticated/reefie': typeof AuthenticatedReefieRouteRoute
+  '/_authenticated/reefie': typeof AuthenticatedReefieRouteRouteWithChildren
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/clients': typeof AuthenticatedClientsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker/': typeof WorkerIndexRoute
+  '/_authenticated/reefie/': typeof AuthenticatedReefieIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -250,11 +259,11 @@ export interface FileRouteTypes {
     | '/worker/log-repair'
     | '/worker/log-usage'
     | '/worker/'
+    | '/reefie/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
-    | '/reefie'
     | '/analytics'
     | '/clients'
     | '/dashboard'
@@ -273,6 +282,7 @@ export interface FileRouteTypes {
     | '/worker/log-repair'
     | '/worker/log-usage'
     | '/worker'
+    | '/reefie'
   id:
     | '__root__'
     | '/'
@@ -298,6 +308,7 @@ export interface FileRouteTypes {
     | '/worker/log-repair'
     | '/worker/log-usage'
     | '/worker/'
+    | '/_authenticated/reefie/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -471,11 +482,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedReefieRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/reefie/': {
+      id: '/_authenticated/reefie/'
+      path: '/'
+      fullPath: '/reefie/'
+      preLoaderRoute: typeof AuthenticatedReefieIndexRouteImport
+      parentRoute: typeof AuthenticatedReefieRouteRoute
+    }
   }
 }
 
+interface AuthenticatedReefieRouteRouteChildren {
+  AuthenticatedReefieIndexRoute: typeof AuthenticatedReefieIndexRoute
+}
+
+const AuthenticatedReefieRouteRouteChildren: AuthenticatedReefieRouteRouteChildren =
+  {
+    AuthenticatedReefieIndexRoute: AuthenticatedReefieIndexRoute,
+  }
+
+const AuthenticatedReefieRouteRouteWithChildren =
+  AuthenticatedReefieRouteRoute._addFileChildren(
+    AuthenticatedReefieRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedReefieRouteRoute: typeof AuthenticatedReefieRouteRoute
+  AuthenticatedReefieRouteRoute: typeof AuthenticatedReefieRouteRouteWithChildren
   AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
   AuthenticatedClientsRoute: typeof AuthenticatedClientsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
@@ -491,7 +523,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedReefieRouteRoute: AuthenticatedReefieRouteRoute,
+  AuthenticatedReefieRouteRoute: AuthenticatedReefieRouteRouteWithChildren,
   AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
   AuthenticatedClientsRoute: AuthenticatedClientsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
