@@ -33,6 +33,7 @@ import { Route as AuthenticatedClientsRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
 import { Route as AuthenticatedReefieRouteRouteImport } from './routes/_authenticated/reefie/route'
 import { Route as AuthenticatedReefieIndexRouteImport } from './routes/_authenticated/reefie/index'
+import { Route as AuthenticatedReefieThreadIdRouteImport } from './routes/_authenticated/reefie/$threadId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -158,6 +159,12 @@ const AuthenticatedReefieIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedReefieRouteRoute,
   } as any)
+const AuthenticatedReefieThreadIdRoute =
+  AuthenticatedReefieThreadIdRouteImport.update({
+    id: '/$threadId',
+    path: '/$threadId',
+    getParentRoute: () => AuthenticatedReefieRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -182,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker/': typeof WorkerIndexRoute
+  '/reefie/$threadId': typeof AuthenticatedReefieThreadIdRoute
   '/reefie/': typeof AuthenticatedReefieIndexRoute
 }
 export interface FileRoutesByTo {
@@ -205,6 +213,7 @@ export interface FileRoutesByTo {
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker': typeof WorkerIndexRoute
+  '/reefie/$threadId': typeof AuthenticatedReefieThreadIdRoute
   '/reefie': typeof AuthenticatedReefieIndexRoute
 }
 export interface FileRoutesById {
@@ -232,6 +241,7 @@ export interface FileRoutesById {
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker/': typeof WorkerIndexRoute
+  '/_authenticated/reefie/$threadId': typeof AuthenticatedReefieThreadIdRoute
   '/_authenticated/reefie/': typeof AuthenticatedReefieIndexRoute
 }
 export interface FileRouteTypes {
@@ -259,6 +269,7 @@ export interface FileRouteTypes {
     | '/worker/log-repair'
     | '/worker/log-usage'
     | '/worker/'
+    | '/reefie/$threadId'
     | '/reefie/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
     | '/worker/log-repair'
     | '/worker/log-usage'
     | '/worker'
+    | '/reefie/$threadId'
     | '/reefie'
   id:
     | '__root__'
@@ -308,6 +320,7 @@ export interface FileRouteTypes {
     | '/worker/log-repair'
     | '/worker/log-usage'
     | '/worker/'
+    | '/_authenticated/reefie/$threadId'
     | '/_authenticated/reefie/'
   fileRoutesById: FileRoutesById
 }
@@ -489,15 +502,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedReefieIndexRouteImport
       parentRoute: typeof AuthenticatedReefieRouteRoute
     }
+    '/_authenticated/reefie/$threadId': {
+      id: '/_authenticated/reefie/$threadId'
+      path: '/$threadId'
+      fullPath: '/reefie/$threadId'
+      preLoaderRoute: typeof AuthenticatedReefieThreadIdRouteImport
+      parentRoute: typeof AuthenticatedReefieRouteRoute
+    }
   }
 }
 
 interface AuthenticatedReefieRouteRouteChildren {
+  AuthenticatedReefieThreadIdRoute: typeof AuthenticatedReefieThreadIdRoute
   AuthenticatedReefieIndexRoute: typeof AuthenticatedReefieIndexRoute
 }
 
 const AuthenticatedReefieRouteRouteChildren: AuthenticatedReefieRouteRouteChildren =
   {
+    AuthenticatedReefieThreadIdRoute: AuthenticatedReefieThreadIdRoute,
     AuthenticatedReefieIndexRoute: AuthenticatedReefieIndexRoute,
   }
 

@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, Users, Mountain, Wrench, Boxes, Truck,
   ClipboardList, ShoppingCart, Receipt, AlertOctagon,
-  Gauge, LineChart,
+  Gauge, LineChart, Bot,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -13,6 +13,7 @@ import reefLogo from "@/assets/reef-logo.png.asset.json";
 const items = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Cost Analytics", url: "/analytics", icon: LineChart },
+  { title: "Reefie", url: "/reefie", icon: Bot },
   { title: "Clients", url: "/clients", icon: Users },
   { title: "Mines", url: "/mines", icon: Mountain },
   { title: "Equipment", url: "/equipment", icon: Wrench },
