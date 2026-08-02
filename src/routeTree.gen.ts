@@ -18,6 +18,7 @@ import { Route as WorkerLogUsageRouteImport } from './routes/worker/log-usage'
 import { Route as WorkerLogRepairRouteImport } from './routes/worker/log-repair'
 import { Route as WorkerLogProductionRouteImport } from './routes/worker/log-production'
 import { Route as WorkerLogDowntimeRouteImport } from './routes/worker/log-downtime'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedSuppliersRouteImport } from './routes/_authenticated/suppliers'
 import { Route as AuthenticatedStaticCostsRouteImport } from './routes/_authenticated/static-costs'
 import { Route as AuthenticatedPurchaseOrdersRouteImport } from './routes/_authenticated/purchase-orders'
@@ -74,6 +75,11 @@ const WorkerLogDowntimeRoute = WorkerLogDowntimeRouteImport.update({
   id: '/log-downtime',
   path: '/log-downtime',
   getParentRoute: () => WorkerRouteRoute,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedSuppliersRoute = AuthenticatedSuppliersRouteImport.update({
   id: '/suppliers',
@@ -155,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
   '/static-costs': typeof AuthenticatedStaticCostsRoute
   '/suppliers': typeof AuthenticatedSuppliersRoute
+  '/api/chat': typeof ApiChatRoute
   '/worker/log-downtime': typeof WorkerLogDowntimeRoute
   '/worker/log-production': typeof WorkerLogProductionRoute
   '/worker/log-repair': typeof WorkerLogRepairRoute
@@ -176,6 +183,7 @@ export interface FileRoutesByTo {
   '/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
   '/static-costs': typeof AuthenticatedStaticCostsRoute
   '/suppliers': typeof AuthenticatedSuppliersRoute
+  '/api/chat': typeof ApiChatRoute
   '/worker/log-downtime': typeof WorkerLogDowntimeRoute
   '/worker/log-production': typeof WorkerLogProductionRoute
   '/worker/log-repair': typeof WorkerLogRepairRoute
@@ -200,6 +208,7 @@ export interface FileRoutesById {
   '/_authenticated/purchase-orders': typeof AuthenticatedPurchaseOrdersRoute
   '/_authenticated/static-costs': typeof AuthenticatedStaticCostsRoute
   '/_authenticated/suppliers': typeof AuthenticatedSuppliersRoute
+  '/api/chat': typeof ApiChatRoute
   '/worker/log-downtime': typeof WorkerLogDowntimeRoute
   '/worker/log-production': typeof WorkerLogProductionRoute
   '/worker/log-repair': typeof WorkerLogRepairRoute
@@ -224,6 +233,7 @@ export interface FileRouteTypes {
     | '/purchase-orders'
     | '/static-costs'
     | '/suppliers'
+    | '/api/chat'
     | '/worker/log-downtime'
     | '/worker/log-production'
     | '/worker/log-repair'
@@ -245,6 +255,7 @@ export interface FileRouteTypes {
     | '/purchase-orders'
     | '/static-costs'
     | '/suppliers'
+    | '/api/chat'
     | '/worker/log-downtime'
     | '/worker/log-production'
     | '/worker/log-repair'
@@ -268,6 +279,7 @@ export interface FileRouteTypes {
     | '/_authenticated/purchase-orders'
     | '/_authenticated/static-costs'
     | '/_authenticated/suppliers'
+    | '/api/chat'
     | '/worker/log-downtime'
     | '/worker/log-production'
     | '/worker/log-repair'
@@ -280,6 +292,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   WorkerRouteRoute: typeof WorkerRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -346,6 +359,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/worker/log-downtime'
       preLoaderRoute: typeof WorkerLogDowntimeRouteImport
       parentRoute: typeof WorkerRouteRoute
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/suppliers': {
       id: '/_authenticated/suppliers'
@@ -492,6 +512,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   WorkerRouteRoute: WorkerRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
