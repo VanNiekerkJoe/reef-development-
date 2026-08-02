@@ -1,11 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useList, ZAR, NUM } from "@/lib/reef-db";
 import { PageHeader } from "@/components/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, LineChart, Line, PieChart, Pie, Cell, Legend } from "recharts";
 import { AlertTriangle, TrendingUp, Boxes, Wrench, Fuel } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
@@ -92,6 +95,9 @@ function Dashboard() {
     };
   }, [production.data, maint.data, stock.data, pos.data, staticCosts.data, mines.data, equipment.data]);
 
+  const [drill, setDrill] = useState<null | "po" | "stock" | "maint">(null);
+  const navigate = useNavigate();
+
   const trend = ((stats.tonsMTD - stats.tonsPrev) / (stats.tonsPrev || 1)) * 100;
   const CHART_COLORS = ["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))", "hsl(var(--chart-4))"];
   // Recharts needs actual color values — use CSS var lookup via CSS colors
@@ -102,21 +108,21 @@ function Dashboard() {
       <PageHeader title="Dashboard" description="Operational overview across all mines and contracts." />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Rand / Ton (MTD)" value={ZAR(stats.rpt)} icon={<TrendingUp className="w-4 h-4" />} />
-        <StatCard label="Tonnes MTD" value={NUM(stats.tonsMTD)} sub={`${trend >= 0 ? "+" : ""}${trend.toFixed(1)}% vs last`} icon={<Fuel className="w-4 h-4" />} />
-        <StatCard label="Maintenance MTD" value={ZAR(stats.maintSpend)} icon={<Wrench className="w-4 h-4" />} />
-        <StatCard label="Inventory Value" value={ZAR(stats.inventoryValue)} icon={<Boxes className="w-4 h-4" />} />
+        <StatCard to="/analytics" label="Rand / Ton (MTD)" value={ZAR(stats.rpt)} icon={<TrendingUp className="w-4 h-4" />} />
+        <StatCard to="/production" label="Tonnes MTD" value={NUM(stats.tonsMTD)} sub={`${trend >= 0 ? "+" : ""}${trend.toFixed(1)}% vs last`} icon={<Fuel className="w-4 h-4" />} />
+        <StatCard to="/maintenance" label="Maintenance MTD" value={ZAR(stats.maintSpend)} icon={<Wrench className="w-4 h-4" />} />
+        <StatCard to="/inventory" label="Inventory Value" value={ZAR(stats.inventoryValue)} icon={<Boxes className="w-4 h-4" />} />
       </div>
 
       <div className="grid gap-4 md:grid-cols-3 mt-4">
-        <AlertCard title="Draft POs awaiting approval" count={stats.draftPOs.length} tone="amber" />
-        <AlertCard title="Low-stock items" count={stats.lowStock.length} tone="red" />
-        <AlertCard title="Overdue maintenance" count={stats.overdueMaint.length} tone="red" />
+        <AlertCard title="Draft POs awaiting approval" count={stats.draftPOs.length} tone="amber" onClick={() => setDrill("po")} />
+        <AlertCard title="Low-stock items" count={stats.lowStock.length} tone="red" onClick={() => setDrill("stock")} />
+        <AlertCard title="Overdue maintenance" count={stats.overdueMaint.length} tone="red" onClick={() => setDrill("maint")} />
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 mt-6">
         <Card>
-          <CardHeader><CardTitle>Cost breakdown (MTD)</CardTitle></CardHeader>
+          <CardHeader><CardTitle><Link to="/analytics" className="hover:text-primary transition-colors">Cost breakdown (MTD) →</Link></CardTitle></CardHeader>
           <CardContent style={{ height: 280 }}>
             {stats.breakdown.length === 0 ? <EmptyChart /> : (
               <ResponsiveContainer><PieChart>
@@ -129,7 +135,7 @@ function Dashboard() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader><CardTitle>Tonnes per mine (30d)</CardTitle></CardHeader>
+          <CardHeader><CardTitle><Link to="/mines" className="hover:text-primary transition-colors">Tonnes per mine (30d) →</Link></CardTitle></CardHeader>
           <CardContent style={{ height: 280 }}>
             {stats.perMine.length === 0 ? <EmptyChart /> : (
               <ResponsiveContainer><BarChart data={stats.perMine}>
@@ -145,7 +151,7 @@ function Dashboard() {
 
       <div className="grid gap-4 md:grid-cols-2 mt-4">
         <Card>
-          <CardHeader><CardTitle>Cost per ton — 6 month trend</CardTitle></CardHeader>
+          <CardHeader><CardTitle><Link to="/analytics" className="hover:text-primary transition-colors">Cost per ton — 6 month trend →</Link></CardTitle></CardHeader>
           <CardContent style={{ height: 280 }}>
             <ResponsiveContainer><LineChart data={stats.trend}>
               <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
@@ -156,12 +162,12 @@ function Dashboard() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader><CardTitle>Equipment nearing end-of-life</CardTitle></CardHeader>
+          <CardHeader><CardTitle><Link to="/equipment" className="hover:text-primary transition-colors">Equipment nearing end-of-life →</Link></CardTitle></CardHeader>
           <CardContent>
             {stats.wear.length === 0 ? <p className="text-sm text-muted-foreground">No equipment tracked yet.</p> : (
               <ul className="space-y-3">
                 {stats.wear.map((w) => (
-                  <li key={w.name} className="flex items-center gap-3">
+                  <li key={w.name} onClick={() => navigate({ to: "/equipment" })} className="flex items-center gap-3 cursor-pointer rounded-md p-1 -m-1 hover:bg-muted/50 transition-colors">
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-medium truncate">{w.name}</div>
                       <div className="w-full h-2 bg-secondary rounded mt-1 overflow-hidden">
@@ -176,13 +182,58 @@ function Dashboard() {
           </CardContent>
         </Card>
       </div>
+
+      <Sheet open={drill !== null} onOpenChange={(o) => !o && setDrill(null)}>
+        <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle>
+              {drill === "po" ? "Draft purchase orders" : drill === "stock" ? "Low-stock items" : "Overdue maintenance"}
+            </SheetTitle>
+            <SheetDescription>
+              {drill === "po" ? "Auto-drafted orders waiting for your approval." :
+               drill === "stock" ? "At or below reorder point — these drive downtime." :
+               "Services past their next due date."}
+            </SheetDescription>
+          </SheetHeader>
+
+          <div className="mt-4 space-y-2">
+            {drill === "stock" && (stats.lowStock.length === 0
+              ? <Empty text="Everything is above reorder point." />
+              : stats.lowStock.map((i: any) => (
+                <DrillRow key={i.id} title={i.name} sub={`On hand ${NUM(i.qty_on_hand)} ${i.unit} · reorder at ${NUM(i.reorder_point)}`} right={ZAR(Number(i.qty_on_hand) * Number(i.unit_cost))} />
+              )))}
+
+            {drill === "maint" && (stats.overdueMaint.length === 0
+              ? <Empty text="No overdue services." />
+              : stats.overdueMaint.map((m: any) => (
+                <DrillRow key={m.id} title={equipment.data?.find((e: any) => e.id === m.equipment_id)?.name ?? m.description}
+                  sub={`Due ${new Date(m.next_due_date).toLocaleDateString()} · ${m.description ?? ""}`} right={ZAR(m.total_cost)} />
+              )))}
+
+            {drill === "po" && (stats.draftPOs.length === 0
+              ? <Empty text="No drafts pending." />
+              : stats.draftPOs.map((p: any) => (
+                <DrillRow key={p.id} title={p.po_number ?? `PO ${p.id.slice(0, 8)}`}
+                  sub={`Created ${new Date(p.created_at).toLocaleDateString()}`} right={ZAR(p.total_cost ?? p.total ?? 0)} />
+              )))}
+          </div>
+
+          <Button className="w-full mt-6" onClick={() => {
+            const to = drill === "stock" ? "/inventory" : drill === "maint" ? "/maintenance" : "/purchase-orders";
+            setDrill(null); navigate({ to });
+          }}>
+            Open full {drill === "stock" ? "inventory" : drill === "maint" ? "maintenance" : "purchase orders"}
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </Button>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
 
-function StatCard({ label, value, sub, icon }: { label: string; value: string; sub?: string; icon?: React.ReactNode }) {
-  return (
-    <Card>
+function StatCard({ label, value, sub, icon, to }: { label: string; value: string; sub?: string; icon?: React.ReactNode; to?: string }) {
+  const card = (
+    <Card className={to ? "cursor-pointer transition-all hover:border-primary/60 hover:shadow-lg hover:-translate-y-0.5" : undefined}>
       <CardContent className="p-4">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}</span>
@@ -193,19 +244,43 @@ function StatCard({ label, value, sub, icon }: { label: string; value: string; s
       </CardContent>
     </Card>
   );
+  return to ? <Link to={to} className="block">{card}</Link> : card;
 }
 
-function AlertCard({ title, count, tone }: { title: string; count: number; tone: "amber" | "red" }) {
+function AlertCard({ title, count, tone, onClick }: { title: string; count: number; tone: "amber" | "red"; onClick?: () => void }) {
   const color = count === 0 ? "text-muted-foreground" : tone === "red" ? "text-destructive" : "text-accent-foreground";
   return (
-    <Card>
+    <Card
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onClick?.(); } }}
+      className="cursor-pointer transition-all hover:border-primary/60 hover:shadow-lg hover:-translate-y-0.5"
+    >
       <CardContent className="p-4 flex items-center gap-3">
         <AlertTriangle className={`w-5 h-5 ${count === 0 ? "text-muted-foreground" : tone === "red" ? "text-destructive" : "text-accent"}`} />
         <div className="flex-1"><div className="text-sm font-medium">{title}</div></div>
         <div className={`text-2xl font-bold ${color}`}>{count}</div>
+        <ChevronRight className="w-4 h-4 text-muted-foreground" />
       </CardContent>
     </Card>
   );
+}
+
+function DrillRow({ title, sub, right }: { title: string; sub?: string; right?: string }) {
+  return (
+    <div className="flex items-center gap-3 rounded-md border p-3 bg-card">
+      <div className="min-w-0 flex-1">
+        <div className="text-sm font-medium truncate">{title}</div>
+        {sub && <div className="text-xs text-muted-foreground truncate">{sub}</div>}
+      </div>
+      {right && <div className="text-sm font-semibold shrink-0">{right}</div>}
+    </div>
+  );
+}
+
+function Empty({ text }: { text: string }) {
+  return <div className="text-sm text-muted-foreground py-8 text-center border rounded-md">{text}</div>;
 }
 
 function EmptyChart() {
