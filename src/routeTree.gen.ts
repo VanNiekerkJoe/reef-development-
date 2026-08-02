@@ -31,6 +31,7 @@ import { Route as AuthenticatedDowntimeRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedClientsRouteImport } from './routes/_authenticated/clients'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
+import { Route as AuthenticatedReefieRouteRouteImport } from './routes/_authenticated/reefie/route'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -144,11 +145,18 @@ const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedReefieRouteRoute =
+  AuthenticatedReefieRouteRouteImport.update({
+    id: '/reefie',
+    path: '/reefie',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/worker': typeof WorkerRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/reefie': typeof AuthenticatedReefieRouteRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/clients': typeof AuthenticatedClientsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -171,6 +179,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/reefie': typeof AuthenticatedReefieRouteRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/clients': typeof AuthenticatedClientsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -196,6 +205,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/worker': typeof WorkerRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/reefie': typeof AuthenticatedReefieRouteRoute
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/clients': typeof AuthenticatedClientsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
@@ -221,6 +231,7 @@ export interface FileRouteTypes {
     | '/'
     | '/worker'
     | '/auth'
+    | '/reefie'
     | '/analytics'
     | '/clients'
     | '/dashboard'
@@ -243,6 +254,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/reefie'
     | '/analytics'
     | '/clients'
     | '/dashboard'
@@ -267,6 +279,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/worker'
     | '/auth'
+    | '/_authenticated/reefie'
     | '/_authenticated/analytics'
     | '/_authenticated/clients'
     | '/_authenticated/dashboard'
@@ -451,10 +464,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/reefie': {
+      id: '/_authenticated/reefie'
+      path: '/reefie'
+      fullPath: '/reefie'
+      preLoaderRoute: typeof AuthenticatedReefieRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedReefieRouteRoute: typeof AuthenticatedReefieRouteRoute
   AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
   AuthenticatedClientsRoute: typeof AuthenticatedClientsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
@@ -470,6 +491,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedReefieRouteRoute: AuthenticatedReefieRouteRoute,
   AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
   AuthenticatedClientsRoute: AuthenticatedClientsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
