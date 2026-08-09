@@ -33,6 +33,7 @@ import { Route as AuthenticatedClientsRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
 import { Route as AuthenticatedReefieRouteRouteImport } from './routes/_authenticated/reefie/route'
 import { Route as AuthenticatedReefieIndexRouteImport } from './routes/_authenticated/reefie/index'
+import { Route as AuthenticatedEmployeesIndexRouteImport } from './routes/_authenticated/employees/index'
 import { Route as AuthenticatedReefieThreadIdRouteImport } from './routes/_authenticated/reefie/$threadId'
 
 const AuthRoute = AuthRouteImport.update({
@@ -159,6 +160,12 @@ const AuthenticatedReefieIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedReefieRouteRoute,
   } as any)
+const AuthenticatedEmployeesIndexRoute =
+  AuthenticatedEmployeesIndexRouteImport.update({
+    id: '/employees/',
+    path: '/employees/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedReefieThreadIdRoute =
   AuthenticatedReefieThreadIdRouteImport.update({
     id: '/$threadId',
@@ -190,6 +197,7 @@ export interface FileRoutesByFullPath {
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker/': typeof WorkerIndexRoute
   '/reefie/$threadId': typeof AuthenticatedReefieThreadIdRoute
+  '/employees/': typeof AuthenticatedEmployeesIndexRoute
   '/reefie/': typeof AuthenticatedReefieIndexRoute
 }
 export interface FileRoutesByTo {
@@ -214,6 +222,7 @@ export interface FileRoutesByTo {
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker': typeof WorkerIndexRoute
   '/reefie/$threadId': typeof AuthenticatedReefieThreadIdRoute
+  '/employees': typeof AuthenticatedEmployeesIndexRoute
   '/reefie': typeof AuthenticatedReefieIndexRoute
 }
 export interface FileRoutesById {
@@ -242,6 +251,7 @@ export interface FileRoutesById {
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker/': typeof WorkerIndexRoute
   '/_authenticated/reefie/$threadId': typeof AuthenticatedReefieThreadIdRoute
+  '/_authenticated/employees/': typeof AuthenticatedEmployeesIndexRoute
   '/_authenticated/reefie/': typeof AuthenticatedReefieIndexRoute
 }
 export interface FileRouteTypes {
@@ -270,6 +280,7 @@ export interface FileRouteTypes {
     | '/worker/log-usage'
     | '/worker/'
     | '/reefie/$threadId'
+    | '/employees/'
     | '/reefie/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -294,6 +305,7 @@ export interface FileRouteTypes {
     | '/worker/log-usage'
     | '/worker'
     | '/reefie/$threadId'
+    | '/employees'
     | '/reefie'
   id:
     | '__root__'
@@ -321,6 +333,7 @@ export interface FileRouteTypes {
     | '/worker/log-usage'
     | '/worker/'
     | '/_authenticated/reefie/$threadId'
+    | '/_authenticated/employees/'
     | '/_authenticated/reefie/'
   fileRoutesById: FileRoutesById
 }
@@ -502,6 +515,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedReefieIndexRouteImport
       parentRoute: typeof AuthenticatedReefieRouteRoute
     }
+    '/_authenticated/employees/': {
+      id: '/_authenticated/employees/'
+      path: '/employees'
+      fullPath: '/employees/'
+      preLoaderRoute: typeof AuthenticatedEmployeesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/reefie/$threadId': {
       id: '/_authenticated/reefie/$threadId'
       path: '/$threadId'
@@ -542,6 +562,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPurchaseOrdersRoute: typeof AuthenticatedPurchaseOrdersRoute
   AuthenticatedStaticCostsRoute: typeof AuthenticatedStaticCostsRoute
   AuthenticatedSuppliersRoute: typeof AuthenticatedSuppliersRoute
+  AuthenticatedEmployeesIndexRoute: typeof AuthenticatedEmployeesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -558,6 +579,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPurchaseOrdersRoute: AuthenticatedPurchaseOrdersRoute,
   AuthenticatedStaticCostsRoute: AuthenticatedStaticCostsRoute,
   AuthenticatedSuppliersRoute: AuthenticatedSuppliersRoute,
+  AuthenticatedEmployeesIndexRoute: AuthenticatedEmployeesIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -593,13 +615,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
