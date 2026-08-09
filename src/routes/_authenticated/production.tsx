@@ -21,9 +21,10 @@ function Page() {
   const [editing, setEditing] = useState<any>(null);
   const [open, setOpen] = useState(false);
   const [mineId, setMineId] = useState("");
+  const [shift, setShift] = useState("morning");
 
-  const openNew = () => { setEditing(null); setMineId(""); setOpen(true); };
-  const openEdit = (r: any) => { setEditing(r); setMineId(r.mine_id); setOpen(true); };
+  const openNew = () => { setEditing(null); setMineId(""); setShift("morning"); setOpen(true); };
+  const openEdit = (r: any) => { setEditing(r); setMineId(r.mine_id); setShift(r.shift ?? "morning"); setOpen(true); };
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,6 +34,8 @@ function Page() {
       ...(editing?.id ? { id: editing.id } : {}),
       mine_id: mineId,
       date: f.get("date"),
+      shift,
+      team_name: f.get("team_name") || null,
       tons_produced: Number(f.get("tons_produced") || 0),
       magnetite_used: Number(f.get("magnetite_used") || 0),
       magnetite_cost: Number(f.get("magnetite_cost") || 0),
@@ -59,6 +62,17 @@ function Page() {
               </Select>
             </Field>
             <Field label="Date"><Input name="date" type="date" required defaultValue={editing?.date ?? new Date().toISOString().slice(0, 10)} /></Field>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Shift">
+                <Select value={shift} onValueChange={setShift}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {["morning", "midday", "night"].map((s) => <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </Field>
+              <Field label="Team"><Input name="team_name" defaultValue={editing?.team_name ?? ""} /></Field>
+            </div>
             <Field label="Tons produced"><Input name="tons_produced" type="number" step="0.01" defaultValue={editing?.tons_produced ?? 0} /></Field>
             <div className="grid grid-cols-2 gap-3">
               <Field label="Magnetite used (t)"><Input name="magnetite_used" type="number" step="0.01" defaultValue={editing?.magnetite_used ?? 0} /></Field>
@@ -76,6 +90,7 @@ function Page() {
       <DataTable rows={list.data ?? []} columns={[
         { key: "date", label: "Date" },
         { key: "mine", label: "Mine", render: (r: any) => mines.data?.find((m) => m.id === r.mine_id)?.name ?? "—" },
+        { key: "shift", label: "Shift", render: (r: any) => <span className="capitalize">{r.shift ?? "—"}{r.team_name ? ` · ${r.team_name}` : ""}</span> },
         { key: "tons_produced", label: "Tons", render: (r: any) => NUM(r.tons_produced) },
         { key: "mag", label: "Magnetite", render: (r: any) => `${NUM(r.magnetite_used)} t · ${ZAR(r.magnetite_cost)}` },
         { key: "ot", label: "Overtime", render: (r: any) => `${NUM(r.overtime_hours)} h · ${ZAR(r.overtime_cost)}` },

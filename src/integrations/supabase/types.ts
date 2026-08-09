@@ -14,6 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
+      attendance: {
+        Row: {
+          created_at: string
+          date: string
+          employee_id: string
+          hours_worked: number
+          id: string
+          logged_by: string | null
+          mine_id: string | null
+          notes: string | null
+          overtime_hours: number
+          shift: Database["public"]["Enums"]["shift_slot"]
+          status: Database["public"]["Enums"]["attendance_status"]
+          tons_contributed: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          date?: string
+          employee_id: string
+          hours_worked?: number
+          id?: string
+          logged_by?: string | null
+          mine_id?: string | null
+          notes?: string | null
+          overtime_hours?: number
+          shift?: Database["public"]["Enums"]["shift_slot"]
+          status?: Database["public"]["Enums"]["attendance_status"]
+          tons_contributed?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          employee_id?: string
+          hours_worked?: number
+          id?: string
+          logged_by?: string | null
+          mine_id?: string | null
+          notes?: string | null
+          overtime_hours?: number
+          shift?: Database["public"]["Enums"]["shift_slot"]
+          status?: Database["public"]["Enums"]["attendance_status"]
+          tons_contributed?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_mine_id_fkey"
+            columns: ["mine_id"]
+            isOneToOne: false
+            referencedRelation: "mines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clients: {
         Row: {
           active: boolean
@@ -112,6 +175,120 @@ export type Database = {
           },
           {
             foreignKeyName: "downtime_events_mine_id_fkey"
+            columns: ["mine_id"]
+            isOneToOne: false
+            referencedRelation: "mines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      employee_transfers: {
+        Row: {
+          created_at: string
+          employee_id: string
+          from_mine_id: string | null
+          id: string
+          reason: string | null
+          to_mine_id: string | null
+          transfer_date: string
+        }
+        Insert: {
+          created_at?: string
+          employee_id: string
+          from_mine_id?: string | null
+          id?: string
+          reason?: string | null
+          to_mine_id?: string | null
+          transfer_date?: string
+        }
+        Update: {
+          created_at?: string
+          employee_id?: string
+          from_mine_id?: string | null
+          id?: string
+          reason?: string | null
+          to_mine_id?: string | null
+          transfer_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "employee_transfers_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "employee_transfers_from_mine_id_fkey"
+            columns: ["from_mine_id"]
+            isOneToOne: false
+            referencedRelation: "mines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "employee_transfers_to_mine_id_fkey"
+            columns: ["to_mine_id"]
+            isOneToOne: false
+            referencedRelation: "mines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      employees: {
+        Row: {
+          active: boolean
+          created_at: string
+          employee_no: string | null
+          full_name: string
+          hire_date: string | null
+          hourly_rate: number
+          id: string
+          id_number: string | null
+          mine_id: string | null
+          notes: string | null
+          phone: string | null
+          position: string | null
+          shift: Database["public"]["Enums"]["shift_slot"]
+          team_name: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          employee_no?: string | null
+          full_name: string
+          hire_date?: string | null
+          hourly_rate?: number
+          id?: string
+          id_number?: string | null
+          mine_id?: string | null
+          notes?: string | null
+          phone?: string | null
+          position?: string | null
+          shift?: Database["public"]["Enums"]["shift_slot"]
+          team_name?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          employee_no?: string | null
+          full_name?: string
+          hire_date?: string | null
+          hourly_rate?: number
+          id?: string
+          id_number?: string | null
+          mine_id?: string | null
+          notes?: string | null
+          phone?: string | null
+          position?: string | null
+          shift?: Database["public"]["Enums"]["shift_slot"]
+          team_name?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "employees_mine_id_fkey"
             columns: ["mine_id"]
             isOneToOne: false
             referencedRelation: "mines"
@@ -385,6 +562,8 @@ export type Database = {
           notes: string | null
           overtime_cost: number
           overtime_hours: number
+          shift: Database["public"]["Enums"]["shift_slot"] | null
+          team_name: string | null
           tons_produced: number
           updated_at: string
         }
@@ -398,6 +577,8 @@ export type Database = {
           notes?: string | null
           overtime_cost?: number
           overtime_hours?: number
+          shift?: Database["public"]["Enums"]["shift_slot"] | null
+          team_name?: string | null
           tons_produced?: number
           updated_at?: string
         }
@@ -411,6 +592,8 @@ export type Database = {
           notes?: string | null
           overtime_cost?: number
           overtime_hours?: number
+          shift?: Database["public"]["Enums"]["shift_slot"] | null
+          team_name?: string | null
           tons_produced?: number
           updated_at?: string
         }
@@ -717,7 +900,9 @@ export type Database = {
         | "supervisor"
         | "stock_controller"
         | "worker"
+      attendance_status: "present" | "absent" | "late" | "leave" | "sick"
       po_status: "draft" | "approved" | "ordered" | "received" | "cancelled"
+      shift_slot: "morning" | "midday" | "night"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -852,7 +1037,9 @@ export const Constants = {
         "stock_controller",
         "worker",
       ],
+      attendance_status: ["present", "absent", "late", "leave", "sick"],
       po_status: ["draft", "approved", "ordered", "received", "cancelled"],
+      shift_slot: ["morning", "midday", "night"],
     },
   },
 } as const
