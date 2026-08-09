@@ -6,7 +6,8 @@ export type TableName =
   | "clients" | "mines" | "equipment" | "suppliers"
   | "stock_items" | "purchase_orders" | "po_lines"
   | "maintenance_logs" | "maintenance_parts"
-  | "production_logs" | "static_costs" | "downtime_events";
+  | "production_logs" | "static_costs" | "downtime_events"
+  | "employees" | "attendance" | "employee_transfers";
 
 export function useList<T = any>(table: TableName, orderBy = "created_at", asc = false) {
   return useQuery({
