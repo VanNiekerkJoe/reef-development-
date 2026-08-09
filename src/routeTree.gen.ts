@@ -35,6 +35,7 @@ import { Route as AuthenticatedReefieRouteRouteImport } from './routes/_authenti
 import { Route as AuthenticatedReefieIndexRouteImport } from './routes/_authenticated/reefie/index'
 import { Route as AuthenticatedEmployeesIndexRouteImport } from './routes/_authenticated/employees/index'
 import { Route as AuthenticatedReefieThreadIdRouteImport } from './routes/_authenticated/reefie/$threadId'
+import { Route as AuthenticatedEmployeesEmployeeIdRouteImport } from './routes/_authenticated/employees/$employeeId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -172,6 +173,12 @@ const AuthenticatedReefieThreadIdRoute =
     path: '/$threadId',
     getParentRoute: () => AuthenticatedReefieRouteRoute,
   } as any)
+const AuthenticatedEmployeesEmployeeIdRoute =
+  AuthenticatedEmployeesEmployeeIdRouteImport.update({
+    id: '/employees/$employeeId',
+    path: '/employees/$employeeId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -196,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker/': typeof WorkerIndexRoute
+  '/employees/$employeeId': typeof AuthenticatedEmployeesEmployeeIdRoute
   '/reefie/$threadId': typeof AuthenticatedReefieThreadIdRoute
   '/employees/': typeof AuthenticatedEmployeesIndexRoute
   '/reefie/': typeof AuthenticatedReefieIndexRoute
@@ -221,6 +229,7 @@ export interface FileRoutesByTo {
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker': typeof WorkerIndexRoute
+  '/employees/$employeeId': typeof AuthenticatedEmployeesEmployeeIdRoute
   '/reefie/$threadId': typeof AuthenticatedReefieThreadIdRoute
   '/employees': typeof AuthenticatedEmployeesIndexRoute
   '/reefie': typeof AuthenticatedReefieIndexRoute
@@ -250,6 +259,7 @@ export interface FileRoutesById {
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
   '/worker/': typeof WorkerIndexRoute
+  '/_authenticated/employees/$employeeId': typeof AuthenticatedEmployeesEmployeeIdRoute
   '/_authenticated/reefie/$threadId': typeof AuthenticatedReefieThreadIdRoute
   '/_authenticated/employees/': typeof AuthenticatedEmployeesIndexRoute
   '/_authenticated/reefie/': typeof AuthenticatedReefieIndexRoute
@@ -279,6 +289,7 @@ export interface FileRouteTypes {
     | '/worker/log-repair'
     | '/worker/log-usage'
     | '/worker/'
+    | '/employees/$employeeId'
     | '/reefie/$threadId'
     | '/employees/'
     | '/reefie/'
@@ -304,6 +315,7 @@ export interface FileRouteTypes {
     | '/worker/log-repair'
     | '/worker/log-usage'
     | '/worker'
+    | '/employees/$employeeId'
     | '/reefie/$threadId'
     | '/employees'
     | '/reefie'
@@ -332,6 +344,7 @@ export interface FileRouteTypes {
     | '/worker/log-repair'
     | '/worker/log-usage'
     | '/worker/'
+    | '/_authenticated/employees/$employeeId'
     | '/_authenticated/reefie/$threadId'
     | '/_authenticated/employees/'
     | '/_authenticated/reefie/'
@@ -529,6 +542,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedReefieThreadIdRouteImport
       parentRoute: typeof AuthenticatedReefieRouteRoute
     }
+    '/_authenticated/employees/$employeeId': {
+      id: '/_authenticated/employees/$employeeId'
+      path: '/employees/$employeeId'
+      fullPath: '/employees/$employeeId'
+      preLoaderRoute: typeof AuthenticatedEmployeesEmployeeIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -562,6 +582,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPurchaseOrdersRoute: typeof AuthenticatedPurchaseOrdersRoute
   AuthenticatedStaticCostsRoute: typeof AuthenticatedStaticCostsRoute
   AuthenticatedSuppliersRoute: typeof AuthenticatedSuppliersRoute
+  AuthenticatedEmployeesEmployeeIdRoute: typeof AuthenticatedEmployeesEmployeeIdRoute
   AuthenticatedEmployeesIndexRoute: typeof AuthenticatedEmployeesIndexRoute
 }
 
@@ -579,6 +600,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPurchaseOrdersRoute: AuthenticatedPurchaseOrdersRoute,
   AuthenticatedStaticCostsRoute: AuthenticatedStaticCostsRoute,
   AuthenticatedSuppliersRoute: AuthenticatedSuppliersRoute,
+  AuthenticatedEmployeesEmployeeIdRoute: AuthenticatedEmployeesEmployeeIdRoute,
   AuthenticatedEmployeesIndexRoute: AuthenticatedEmployeesIndexRoute,
 }
 
