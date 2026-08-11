@@ -26,6 +26,7 @@ import { Route as AuthenticatedProductionRouteImport } from './routes/_authentic
 import { Route as AuthenticatedMinesRouteImport } from './routes/_authenticated/mines'
 import { Route as AuthenticatedMaintenanceRouteImport } from './routes/_authenticated/maintenance'
 import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
+import { Route as AuthenticatedFuelRouteImport } from './routes/_authenticated/fuel'
 import { Route as AuthenticatedEquipmentRouteImport } from './routes/_authenticated/equipment'
 import { Route as AuthenticatedDowntimeRouteImport } from './routes/_authenticated/downtime'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -124,6 +125,11 @@ const AuthenticatedInventoryRoute = AuthenticatedInventoryRouteImport.update({
   path: '/inventory',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedFuelRoute = AuthenticatedFuelRouteImport.update({
+  id: '/fuel',
+  path: '/fuel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedEquipmentRoute = AuthenticatedEquipmentRouteImport.update({
   id: '/equipment',
   path: '/equipment',
@@ -190,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/downtime': typeof AuthenticatedDowntimeRoute
   '/equipment': typeof AuthenticatedEquipmentRoute
+  '/fuel': typeof AuthenticatedFuelRoute
   '/inventory': typeof AuthenticatedInventoryRoute
   '/maintenance': typeof AuthenticatedMaintenanceRoute
   '/mines': typeof AuthenticatedMinesRoute
@@ -216,6 +223,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/downtime': typeof AuthenticatedDowntimeRoute
   '/equipment': typeof AuthenticatedEquipmentRoute
+  '/fuel': typeof AuthenticatedFuelRoute
   '/inventory': typeof AuthenticatedInventoryRoute
   '/maintenance': typeof AuthenticatedMaintenanceRoute
   '/mines': typeof AuthenticatedMinesRoute
@@ -246,6 +254,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/downtime': typeof AuthenticatedDowntimeRoute
   '/_authenticated/equipment': typeof AuthenticatedEquipmentRoute
+  '/_authenticated/fuel': typeof AuthenticatedFuelRoute
   '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
   '/_authenticated/maintenance': typeof AuthenticatedMaintenanceRoute
   '/_authenticated/mines': typeof AuthenticatedMinesRoute
@@ -276,6 +285,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/downtime'
     | '/equipment'
+    | '/fuel'
     | '/inventory'
     | '/maintenance'
     | '/mines'
@@ -302,6 +312,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/downtime'
     | '/equipment'
+    | '/fuel'
     | '/inventory'
     | '/maintenance'
     | '/mines'
@@ -331,6 +342,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/downtime'
     | '/_authenticated/equipment'
+    | '/_authenticated/fuel'
     | '/_authenticated/inventory'
     | '/_authenticated/maintenance'
     | '/_authenticated/mines'
@@ -479,6 +491,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedInventoryRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/fuel': {
+      id: '/_authenticated/fuel'
+      path: '/fuel'
+      fullPath: '/fuel'
+      preLoaderRoute: typeof AuthenticatedFuelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/equipment': {
       id: '/_authenticated/equipment'
       path: '/equipment'
@@ -575,6 +594,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDowntimeRoute: typeof AuthenticatedDowntimeRoute
   AuthenticatedEquipmentRoute: typeof AuthenticatedEquipmentRoute
+  AuthenticatedFuelRoute: typeof AuthenticatedFuelRoute
   AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRoute
   AuthenticatedMaintenanceRoute: typeof AuthenticatedMaintenanceRoute
   AuthenticatedMinesRoute: typeof AuthenticatedMinesRoute
@@ -593,6 +613,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDowntimeRoute: AuthenticatedDowntimeRoute,
   AuthenticatedEquipmentRoute: AuthenticatedEquipmentRoute,
+  AuthenticatedFuelRoute: AuthenticatedFuelRoute,
   AuthenticatedInventoryRoute: AuthenticatedInventoryRoute,
   AuthenticatedMaintenanceRoute: AuthenticatedMaintenanceRoute,
   AuthenticatedMinesRoute: AuthenticatedMinesRoute,
@@ -637,13 +658,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
