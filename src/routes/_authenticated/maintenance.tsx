@@ -5,6 +5,7 @@ import { DataTable } from "@/components/DataTable";
 import { Field } from "@/components/ResourceDialog";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/NumberField";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -120,8 +121,8 @@ function Page() {
                     <SelectTrigger className="flex-1"><SelectValue placeholder="Select part" /></SelectTrigger>
                     <SelectContent>{stock.data?.map((s) => <SelectItem key={s.id} value={s.id}>{s.name} ({NUM(s.qty_on_hand)} on hand)</SelectItem>)}</SelectContent>
                   </Select>
-                  <Input type="number" step="0.01" className="w-24" value={p.qty}
-                    onChange={(e) => { const n = [...parts]; n[i].qty = Number(e.target.value); setParts(n); }} />
+                  <NumberField step="0.01" className="w-24 shrink-0" value={p.qty}
+                    onValueChange={(v) => { const n = [...parts]; n[i].qty = v; setParts(n); }} />
                   <Button type="button" size="icon" variant="ghost" onClick={() => setParts(parts.filter((_, j) => j !== i))}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
