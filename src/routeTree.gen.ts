@@ -17,6 +17,7 @@ import { Route as WorkerIndexRouteImport } from './routes/worker/index'
 import { Route as WorkerLogUsageRouteImport } from './routes/worker/log-usage'
 import { Route as WorkerLogRepairRouteImport } from './routes/worker/log-repair'
 import { Route as WorkerLogProductionRouteImport } from './routes/worker/log-production'
+import { Route as WorkerLogFuelRouteImport } from './routes/worker/log-fuel'
 import { Route as WorkerLogDowntimeRouteImport } from './routes/worker/log-downtime'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedSuppliersRouteImport } from './routes/_authenticated/suppliers'
@@ -75,6 +76,11 @@ const WorkerLogRepairRoute = WorkerLogRepairRouteImport.update({
 const WorkerLogProductionRoute = WorkerLogProductionRouteImport.update({
   id: '/log-production',
   path: '/log-production',
+  getParentRoute: () => WorkerRouteRoute,
+} as any)
+const WorkerLogFuelRoute = WorkerLogFuelRouteImport.update({
+  id: '/log-fuel',
+  path: '/log-fuel',
   getParentRoute: () => WorkerRouteRoute,
 } as any)
 const WorkerLogDowntimeRoute = WorkerLogDowntimeRouteImport.update({
@@ -206,6 +212,7 @@ export interface FileRoutesByFullPath {
   '/suppliers': typeof AuthenticatedSuppliersRoute
   '/api/chat': typeof ApiChatRoute
   '/worker/log-downtime': typeof WorkerLogDowntimeRoute
+  '/worker/log-fuel': typeof WorkerLogFuelRoute
   '/worker/log-production': typeof WorkerLogProductionRoute
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
@@ -233,6 +240,7 @@ export interface FileRoutesByTo {
   '/suppliers': typeof AuthenticatedSuppliersRoute
   '/api/chat': typeof ApiChatRoute
   '/worker/log-downtime': typeof WorkerLogDowntimeRoute
+  '/worker/log-fuel': typeof WorkerLogFuelRoute
   '/worker/log-production': typeof WorkerLogProductionRoute
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
@@ -264,6 +272,7 @@ export interface FileRoutesById {
   '/_authenticated/suppliers': typeof AuthenticatedSuppliersRoute
   '/api/chat': typeof ApiChatRoute
   '/worker/log-downtime': typeof WorkerLogDowntimeRoute
+  '/worker/log-fuel': typeof WorkerLogFuelRoute
   '/worker/log-production': typeof WorkerLogProductionRoute
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
@@ -295,6 +304,7 @@ export interface FileRouteTypes {
     | '/suppliers'
     | '/api/chat'
     | '/worker/log-downtime'
+    | '/worker/log-fuel'
     | '/worker/log-production'
     | '/worker/log-repair'
     | '/worker/log-usage'
@@ -322,6 +332,7 @@ export interface FileRouteTypes {
     | '/suppliers'
     | '/api/chat'
     | '/worker/log-downtime'
+    | '/worker/log-fuel'
     | '/worker/log-production'
     | '/worker/log-repair'
     | '/worker/log-usage'
@@ -352,6 +363,7 @@ export interface FileRouteTypes {
     | '/_authenticated/suppliers'
     | '/api/chat'
     | '/worker/log-downtime'
+    | '/worker/log-fuel'
     | '/worker/log-production'
     | '/worker/log-repair'
     | '/worker/log-usage'
@@ -426,6 +438,13 @@ declare module '@tanstack/react-router' {
       path: '/log-production'
       fullPath: '/worker/log-production'
       preLoaderRoute: typeof WorkerLogProductionRouteImport
+      parentRoute: typeof WorkerRouteRoute
+    }
+    '/worker/log-fuel': {
+      id: '/worker/log-fuel'
+      path: '/log-fuel'
+      fullPath: '/worker/log-fuel'
+      preLoaderRoute: typeof WorkerLogFuelRouteImport
       parentRoute: typeof WorkerRouteRoute
     }
     '/worker/log-downtime': {
@@ -630,6 +649,7 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface WorkerRouteRouteChildren {
   WorkerLogDowntimeRoute: typeof WorkerLogDowntimeRoute
+  WorkerLogFuelRoute: typeof WorkerLogFuelRoute
   WorkerLogProductionRoute: typeof WorkerLogProductionRoute
   WorkerLogRepairRoute: typeof WorkerLogRepairRoute
   WorkerLogUsageRoute: typeof WorkerLogUsageRoute
@@ -638,6 +658,7 @@ interface WorkerRouteRouteChildren {
 
 const WorkerRouteRouteChildren: WorkerRouteRouteChildren = {
   WorkerLogDowntimeRoute: WorkerLogDowntimeRoute,
+  WorkerLogFuelRoute: WorkerLogFuelRoute,
   WorkerLogProductionRoute: WorkerLogProductionRoute,
   WorkerLogRepairRoute: WorkerLogRepairRoute,
   WorkerLogUsageRoute: WorkerLogUsageRoute,
