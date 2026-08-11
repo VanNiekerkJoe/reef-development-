@@ -180,8 +180,8 @@ function Page() {
             </div>
             <div className="grid grid-cols-3 gap-3">
               <Field label="Hours"><Input name="hours_worked" type="number" step="0.25" defaultValue={editingAtt?.hours_worked ?? 12} /></Field>
-              <Field label="Overtime"><Input name="overtime_hours" type="number" step="0.25" defaultValue={editingAtt?.overtime_hours ?? 0} /></Field>
-              <Field label="Tonnes"><Input name="tons_contributed" type="number" step="0.01" defaultValue={editingAtt?.tons_contributed ?? 0} /></Field>
+              <Field label="Overtime"><Input name="overtime_hours" type="number" step="0.25" defaultValue={editingAtt?.overtime_hours ?? ""} placeholder="0" /></Field>
+              <Field label="Tonnes"><Input name="tons_contributed" type="number" step="0.01" defaultValue={editingAtt?.tons_contributed ?? ""} placeholder="0" /></Field>
             </div>
             <Field label="Notes"><Textarea name="notes" rows={2} defaultValue={editingAtt?.notes ?? ""} /></Field>
             <Button type="submit" className="w-full">Save</Button>
