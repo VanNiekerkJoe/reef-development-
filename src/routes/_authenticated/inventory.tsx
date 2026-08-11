@@ -63,11 +63,11 @@ function Page() {
               </Select>
             </Field>
             <div className="grid grid-cols-3 gap-3">
-              <Field label="Qty on hand"><Input name="qty_on_hand" type="number" step="0.01" defaultValue={editing?.qty_on_hand ?? 0} /></Field>
-              <Field label="Reorder point"><Input name="reorder_point" type="number" step="0.01" defaultValue={editing?.reorder_point ?? 0} /></Field>
-              <Field label="Reorder qty"><Input name="reorder_qty" type="number" step="0.01" defaultValue={editing?.reorder_qty ?? 0} /></Field>
+              <Field label="Qty on hand"><Input name="qty_on_hand" type="number" step="0.01" defaultValue={editing?.qty_on_hand ?? ""} placeholder="0" /></Field>
+              <Field label="Reorder point"><Input name="reorder_point" type="number" step="0.01" defaultValue={editing?.reorder_point ?? ""} placeholder="0" /></Field>
+              <Field label="Reorder qty"><Input name="reorder_qty" type="number" step="0.01" defaultValue={editing?.reorder_qty ?? ""} placeholder="0" /></Field>
             </div>
-            <Field label="Unit cost (ZAR)"><Input name="unit_cost" type="number" step="0.01" defaultValue={editing?.unit_cost ?? 0} /></Field>
+            <Field label="Unit cost (ZAR)"><Input name="unit_cost" type="number" step="0.01" defaultValue={editing?.unit_cost ?? ""} placeholder="0" /></Field>
             <Button type="submit" className="w-full">Save</Button>
           </form>
         </DialogContent>

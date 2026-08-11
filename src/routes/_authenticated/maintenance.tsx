@@ -97,9 +97,9 @@ function Page() {
             </div>
             <Field label="Description"><Input name="description" required placeholder="What was repaired" /></Field>
             <div className="grid grid-cols-3 gap-3">
-              <Field label="Labor hours"><Input name="labor_hours" type="number" step="0.01" defaultValue={0} /></Field>
-              <Field label="Labor cost (ZAR)"><Input name="labor_cost" type="number" step="0.01" defaultValue={0} /></Field>
-              <Field label="Other cost (ZAR)"><Input name="other_cost" type="number" step="0.01" defaultValue={0} /></Field>
+              <Field label="Labor hours"><Input name="labor_hours" type="number" step="0.01" placeholder="0" /></Field>
+              <Field label="Labor cost (ZAR)"><Input name="labor_cost" type="number" step="0.01" placeholder="0" /></Field>
+              <Field label="Other cost (ZAR)"><Input name="other_cost" type="number" step="0.01" placeholder="0" /></Field>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <Field label="Next service due (date)"><Input name="next_due_date" type="date" /></Field>

@@ -70,7 +70,7 @@ function Page() {
               <Field label="Expected life (tons)"><Input name="expected_life_tons" type="number" step="0.01" defaultValue={editing?.expected_life_tons ?? ""} /></Field>
               <Field label="Expected life (hours)"><Input name="expected_life_hours" type="number" step="0.01" defaultValue={editing?.expected_life_hours ?? ""} /></Field>
             </div>
-            <Field label="Tons processed since install"><Input name="tons_since_install" type="number" step="0.01" defaultValue={editing?.tons_since_install ?? 0} /></Field>
+            <Field label="Tons processed since install"><Input name="tons_since_install" type="number" step="0.01" defaultValue={editing?.tons_since_install ?? ""} placeholder="0" /></Field>
             <div className="grid grid-cols-2 gap-3">
               <Field label="Service interval (tons)"><Input name="service_interval_tons" type="number" step="0.01" defaultValue={editing?.service_interval_tons ?? ""} /></Field>
               <Field label="Service interval (days)"><Input name="service_interval_days" type="number" defaultValue={editing?.service_interval_days ?? ""} /></Field>
