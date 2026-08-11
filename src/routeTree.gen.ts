@@ -17,6 +17,7 @@ import { Route as WorkerIndexRouteImport } from './routes/worker/index'
 import { Route as WorkerLogUsageRouteImport } from './routes/worker/log-usage'
 import { Route as WorkerLogRepairRouteImport } from './routes/worker/log-repair'
 import { Route as WorkerLogProductionRouteImport } from './routes/worker/log-production'
+import { Route as WorkerLogFuelRouteImport } from './routes/worker/log-fuel'
 import { Route as WorkerLogDowntimeRouteImport } from './routes/worker/log-downtime'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedSuppliersRouteImport } from './routes/_authenticated/suppliers'
@@ -26,6 +27,7 @@ import { Route as AuthenticatedProductionRouteImport } from './routes/_authentic
 import { Route as AuthenticatedMinesRouteImport } from './routes/_authenticated/mines'
 import { Route as AuthenticatedMaintenanceRouteImport } from './routes/_authenticated/maintenance'
 import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
+import { Route as AuthenticatedFuelRouteImport } from './routes/_authenticated/fuel'
 import { Route as AuthenticatedEquipmentRouteImport } from './routes/_authenticated/equipment'
 import { Route as AuthenticatedDowntimeRouteImport } from './routes/_authenticated/downtime'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -76,6 +78,11 @@ const WorkerLogProductionRoute = WorkerLogProductionRouteImport.update({
   path: '/log-production',
   getParentRoute: () => WorkerRouteRoute,
 } as any)
+const WorkerLogFuelRoute = WorkerLogFuelRouteImport.update({
+  id: '/log-fuel',
+  path: '/log-fuel',
+  getParentRoute: () => WorkerRouteRoute,
+} as any)
 const WorkerLogDowntimeRoute = WorkerLogDowntimeRouteImport.update({
   id: '/log-downtime',
   path: '/log-downtime',
@@ -122,6 +129,11 @@ const AuthenticatedMaintenanceRoute =
 const AuthenticatedInventoryRoute = AuthenticatedInventoryRouteImport.update({
   id: '/inventory',
   path: '/inventory',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedFuelRoute = AuthenticatedFuelRouteImport.update({
+  id: '/fuel',
+  path: '/fuel',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedEquipmentRoute = AuthenticatedEquipmentRouteImport.update({
@@ -190,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/downtime': typeof AuthenticatedDowntimeRoute
   '/equipment': typeof AuthenticatedEquipmentRoute
+  '/fuel': typeof AuthenticatedFuelRoute
   '/inventory': typeof AuthenticatedInventoryRoute
   '/maintenance': typeof AuthenticatedMaintenanceRoute
   '/mines': typeof AuthenticatedMinesRoute
@@ -199,6 +212,7 @@ export interface FileRoutesByFullPath {
   '/suppliers': typeof AuthenticatedSuppliersRoute
   '/api/chat': typeof ApiChatRoute
   '/worker/log-downtime': typeof WorkerLogDowntimeRoute
+  '/worker/log-fuel': typeof WorkerLogFuelRoute
   '/worker/log-production': typeof WorkerLogProductionRoute
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
@@ -216,6 +230,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/downtime': typeof AuthenticatedDowntimeRoute
   '/equipment': typeof AuthenticatedEquipmentRoute
+  '/fuel': typeof AuthenticatedFuelRoute
   '/inventory': typeof AuthenticatedInventoryRoute
   '/maintenance': typeof AuthenticatedMaintenanceRoute
   '/mines': typeof AuthenticatedMinesRoute
@@ -225,6 +240,7 @@ export interface FileRoutesByTo {
   '/suppliers': typeof AuthenticatedSuppliersRoute
   '/api/chat': typeof ApiChatRoute
   '/worker/log-downtime': typeof WorkerLogDowntimeRoute
+  '/worker/log-fuel': typeof WorkerLogFuelRoute
   '/worker/log-production': typeof WorkerLogProductionRoute
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
@@ -246,6 +262,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/downtime': typeof AuthenticatedDowntimeRoute
   '/_authenticated/equipment': typeof AuthenticatedEquipmentRoute
+  '/_authenticated/fuel': typeof AuthenticatedFuelRoute
   '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
   '/_authenticated/maintenance': typeof AuthenticatedMaintenanceRoute
   '/_authenticated/mines': typeof AuthenticatedMinesRoute
@@ -255,6 +272,7 @@ export interface FileRoutesById {
   '/_authenticated/suppliers': typeof AuthenticatedSuppliersRoute
   '/api/chat': typeof ApiChatRoute
   '/worker/log-downtime': typeof WorkerLogDowntimeRoute
+  '/worker/log-fuel': typeof WorkerLogFuelRoute
   '/worker/log-production': typeof WorkerLogProductionRoute
   '/worker/log-repair': typeof WorkerLogRepairRoute
   '/worker/log-usage': typeof WorkerLogUsageRoute
@@ -276,6 +294,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/downtime'
     | '/equipment'
+    | '/fuel'
     | '/inventory'
     | '/maintenance'
     | '/mines'
@@ -285,6 +304,7 @@ export interface FileRouteTypes {
     | '/suppliers'
     | '/api/chat'
     | '/worker/log-downtime'
+    | '/worker/log-fuel'
     | '/worker/log-production'
     | '/worker/log-repair'
     | '/worker/log-usage'
@@ -302,6 +322,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/downtime'
     | '/equipment'
+    | '/fuel'
     | '/inventory'
     | '/maintenance'
     | '/mines'
@@ -311,6 +332,7 @@ export interface FileRouteTypes {
     | '/suppliers'
     | '/api/chat'
     | '/worker/log-downtime'
+    | '/worker/log-fuel'
     | '/worker/log-production'
     | '/worker/log-repair'
     | '/worker/log-usage'
@@ -331,6 +353,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/downtime'
     | '/_authenticated/equipment'
+    | '/_authenticated/fuel'
     | '/_authenticated/inventory'
     | '/_authenticated/maintenance'
     | '/_authenticated/mines'
@@ -340,6 +363,7 @@ export interface FileRouteTypes {
     | '/_authenticated/suppliers'
     | '/api/chat'
     | '/worker/log-downtime'
+    | '/worker/log-fuel'
     | '/worker/log-production'
     | '/worker/log-repair'
     | '/worker/log-usage'
@@ -416,6 +440,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkerLogProductionRouteImport
       parentRoute: typeof WorkerRouteRoute
     }
+    '/worker/log-fuel': {
+      id: '/worker/log-fuel'
+      path: '/log-fuel'
+      fullPath: '/worker/log-fuel'
+      preLoaderRoute: typeof WorkerLogFuelRouteImport
+      parentRoute: typeof WorkerRouteRoute
+    }
     '/worker/log-downtime': {
       id: '/worker/log-downtime'
       path: '/log-downtime'
@@ -477,6 +508,13 @@ declare module '@tanstack/react-router' {
       path: '/inventory'
       fullPath: '/inventory'
       preLoaderRoute: typeof AuthenticatedInventoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/fuel': {
+      id: '/_authenticated/fuel'
+      path: '/fuel'
+      fullPath: '/fuel'
+      preLoaderRoute: typeof AuthenticatedFuelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/equipment': {
@@ -575,6 +613,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDowntimeRoute: typeof AuthenticatedDowntimeRoute
   AuthenticatedEquipmentRoute: typeof AuthenticatedEquipmentRoute
+  AuthenticatedFuelRoute: typeof AuthenticatedFuelRoute
   AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRoute
   AuthenticatedMaintenanceRoute: typeof AuthenticatedMaintenanceRoute
   AuthenticatedMinesRoute: typeof AuthenticatedMinesRoute
@@ -593,6 +632,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDowntimeRoute: AuthenticatedDowntimeRoute,
   AuthenticatedEquipmentRoute: AuthenticatedEquipmentRoute,
+  AuthenticatedFuelRoute: AuthenticatedFuelRoute,
   AuthenticatedInventoryRoute: AuthenticatedInventoryRoute,
   AuthenticatedMaintenanceRoute: AuthenticatedMaintenanceRoute,
   AuthenticatedMinesRoute: AuthenticatedMinesRoute,
@@ -609,6 +649,7 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface WorkerRouteRouteChildren {
   WorkerLogDowntimeRoute: typeof WorkerLogDowntimeRoute
+  WorkerLogFuelRoute: typeof WorkerLogFuelRoute
   WorkerLogProductionRoute: typeof WorkerLogProductionRoute
   WorkerLogRepairRoute: typeof WorkerLogRepairRoute
   WorkerLogUsageRoute: typeof WorkerLogUsageRoute
@@ -617,6 +658,7 @@ interface WorkerRouteRouteChildren {
 
 const WorkerRouteRouteChildren: WorkerRouteRouteChildren = {
   WorkerLogDowntimeRoute: WorkerLogDowntimeRoute,
+  WorkerLogFuelRoute: WorkerLogFuelRoute,
   WorkerLogProductionRoute: WorkerLogProductionRoute,
   WorkerLogRepairRoute: WorkerLogRepairRoute,
   WorkerLogUsageRoute: WorkerLogUsageRoute,

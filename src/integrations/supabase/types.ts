@@ -358,6 +358,91 @@ export type Database = {
           },
         ]
       }
+      fuel_slips: {
+        Row: {
+          cost_per_litre: number
+          created_at: string
+          date: string
+          employee_id: string | null
+          equipment_id: string | null
+          fuel_type: string
+          hours_reading: number | null
+          id: string
+          litres: number
+          logged_by: string | null
+          mine_id: string | null
+          notes: string | null
+          odometer: number | null
+          photo_urls: string[]
+          slip_no: string | null
+          total_cost: number
+          updated_at: string
+          vehicle_label: string | null
+        }
+        Insert: {
+          cost_per_litre?: number
+          created_at?: string
+          date?: string
+          employee_id?: string | null
+          equipment_id?: string | null
+          fuel_type?: string
+          hours_reading?: number | null
+          id?: string
+          litres?: number
+          logged_by?: string | null
+          mine_id?: string | null
+          notes?: string | null
+          odometer?: number | null
+          photo_urls?: string[]
+          slip_no?: string | null
+          total_cost?: number
+          updated_at?: string
+          vehicle_label?: string | null
+        }
+        Update: {
+          cost_per_litre?: number
+          created_at?: string
+          date?: string
+          employee_id?: string | null
+          equipment_id?: string | null
+          fuel_type?: string
+          hours_reading?: number | null
+          id?: string
+          litres?: number
+          logged_by?: string | null
+          mine_id?: string | null
+          notes?: string | null
+          odometer?: number | null
+          photo_urls?: string[]
+          slip_no?: string | null
+          total_cost?: number
+          updated_at?: string
+          vehicle_label?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fuel_slips_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fuel_slips_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fuel_slips_mine_id_fkey"
+            columns: ["mine_id"]
+            isOneToOne: false
+            referencedRelation: "mines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       maintenance_logs: {
         Row: {
           created_at: string
