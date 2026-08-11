@@ -5,6 +5,7 @@ import { DataTable } from "@/components/DataTable";
 import { Field } from "@/components/ResourceDialog";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/NumberField";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -97,9 +98,9 @@ function Page() {
             </div>
             <Field label="Description"><Input name="description" required placeholder="What was repaired" /></Field>
             <div className="grid grid-cols-3 gap-3">
-              <Field label="Labor hours"><Input name="labor_hours" type="number" step="0.01" defaultValue={0} /></Field>
-              <Field label="Labor cost (ZAR)"><Input name="labor_cost" type="number" step="0.01" defaultValue={0} /></Field>
-              <Field label="Other cost (ZAR)"><Input name="other_cost" type="number" step="0.01" defaultValue={0} /></Field>
+              <Field label="Labor hours"><Input name="labor_hours" type="number" step="0.01" placeholder="0" /></Field>
+              <Field label="Labor cost (ZAR)"><Input name="labor_cost" type="number" step="0.01" placeholder="0" /></Field>
+              <Field label="Other cost (ZAR)"><Input name="other_cost" type="number" step="0.01" placeholder="0" /></Field>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <Field label="Next service due (date)"><Input name="next_due_date" type="date" /></Field>
@@ -120,8 +121,8 @@ function Page() {
                     <SelectTrigger className="flex-1"><SelectValue placeholder="Select part" /></SelectTrigger>
                     <SelectContent>{stock.data?.map((s) => <SelectItem key={s.id} value={s.id}>{s.name} ({NUM(s.qty_on_hand)} on hand)</SelectItem>)}</SelectContent>
                   </Select>
-                  <Input type="number" step="0.01" className="w-24" value={p.qty}
-                    onChange={(e) => { const n = [...parts]; n[i].qty = Number(e.target.value); setParts(n); }} />
+                  <NumberField step="0.01" className="w-24 shrink-0" value={p.qty}
+                    onValueChange={(v) => { const n = [...parts]; n[i].qty = v; setParts(n); }} />
                   <Button type="button" size="icon" variant="ghost" onClick={() => setParts(parts.filter((_, j) => j !== i))}>
                     <Trash2 className="w-4 h-4" />
                   </Button>

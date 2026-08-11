@@ -56,7 +56,7 @@ function Page() {
               </Select>
             </Field>
             <Field label="Category"><Input name="category" required defaultValue={editing?.category ?? ""} placeholder="Salaries, Rent…" /></Field>
-            <Field label="Amount (ZAR)"><Input name="amount" type="number" step="0.01" required defaultValue={editing?.amount ?? 0} /></Field>
+            <Field label="Amount (ZAR)"><Input name="amount" type="number" step="0.01" required defaultValue={editing?.amount ?? ""} placeholder="0" /></Field>
             <Field label="Notes"><Textarea name="notes" rows={2} defaultValue={editing?.notes ?? ""} /></Field>
             <Button type="submit" className="w-full">Save</Button>
           </form>

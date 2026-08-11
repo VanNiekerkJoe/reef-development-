@@ -5,6 +5,7 @@ import { useList } from "@/lib/reef-db";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/NumberField";
 import { Label } from "@/components/ui/label";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -64,7 +65,7 @@ function Page() {
       </div>
       <div className="space-y-2">
         <Label>Labour cost (ZAR)</Label>
-        <Input type="number" inputMode="decimal" step="0.01" className="h-12 text-lg" value={cost} onChange={(e) => setCost(Number(e.target.value))} />
+        <NumberField step="0.01" className="h-12 text-lg" value={cost} onValueChange={setCost} />
       </div>
       <div className="space-y-2">
         <Label className="flex items-center gap-2"><Camera className="w-4 h-4" />Photos (optional)</Label>

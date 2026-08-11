@@ -73,14 +73,14 @@ function Page() {
               </Field>
               <Field label="Team"><Input name="team_name" defaultValue={editing?.team_name ?? ""} /></Field>
             </div>
-            <Field label="Tons produced"><Input name="tons_produced" type="number" step="0.01" defaultValue={editing?.tons_produced ?? 0} /></Field>
+            <Field label="Tons produced"><Input name="tons_produced" type="number" step="0.01" defaultValue={editing?.tons_produced ?? ""} placeholder="0" /></Field>
             <div className="grid grid-cols-2 gap-3">
-              <Field label="Magnetite used (t)"><Input name="magnetite_used" type="number" step="0.01" defaultValue={editing?.magnetite_used ?? 0} /></Field>
-              <Field label="Magnetite cost (ZAR)"><Input name="magnetite_cost" type="number" step="0.01" defaultValue={editing?.magnetite_cost ?? 0} /></Field>
+              <Field label="Magnetite used (t)"><Input name="magnetite_used" type="number" step="0.01" defaultValue={editing?.magnetite_used ?? ""} placeholder="0" /></Field>
+              <Field label="Magnetite cost (ZAR)"><Input name="magnetite_cost" type="number" step="0.01" defaultValue={editing?.magnetite_cost ?? ""} placeholder="0" /></Field>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <Field label="Overtime hours"><Input name="overtime_hours" type="number" step="0.01" defaultValue={editing?.overtime_hours ?? 0} /></Field>
-              <Field label="Overtime cost (ZAR)"><Input name="overtime_cost" type="number" step="0.01" defaultValue={editing?.overtime_cost ?? 0} /></Field>
+              <Field label="Overtime hours"><Input name="overtime_hours" type="number" step="0.01" defaultValue={editing?.overtime_hours ?? ""} placeholder="0" /></Field>
+              <Field label="Overtime cost (ZAR)"><Input name="overtime_cost" type="number" step="0.01" defaultValue={editing?.overtime_cost ?? ""} placeholder="0" /></Field>
             </div>
             <Field label="Notes"><Textarea name="notes" rows={2} defaultValue={editing?.notes ?? ""} /></Field>
             <Button type="submit" className="w-full">Save</Button>

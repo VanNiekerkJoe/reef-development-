@@ -332,3 +332,15 @@
 @media (prefers-reduced-motion: reduce) {
   .reef-video, .reef-sweep::after, .reef-grain::before, .reef-marquee { animation: none !important; }
 }
+
+/* Number inputs: no native spinners (they clip the border on narrow fields),
+   and the focus ring sits above neighbouring fields in tight grids. */
+.num-input::-webkit-outer-spin-button,
+.num-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.num-input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}

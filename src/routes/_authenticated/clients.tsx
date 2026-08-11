@@ -56,7 +56,7 @@ function Page() {
               <Field label="Contract start"><Input name="contract_start" type="date" defaultValue={editing?.contract_start ?? ""} /></Field>
               <Field label="Contract end"><Input name="contract_end" type="date" defaultValue={editing?.contract_end ?? ""} /></Field>
             </div>
-            <Field label="Monthly revenue (ZAR)"><Input name="contract_revenue_monthly" type="number" step="0.01" defaultValue={editing?.contract_revenue_monthly ?? 0} /></Field>
+            <Field label="Monthly revenue (ZAR)"><Input name="contract_revenue_monthly" type="number" step="0.01" defaultValue={editing?.contract_revenue_monthly ?? ""} placeholder="0" /></Field>
             <Field label="Notes"><Textarea name="notes" rows={2} defaultValue={editing?.notes ?? ""} /></Field>
             <Button type="submit" className="w-full">Save</Button>
           </form>

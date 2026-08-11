@@ -160,7 +160,7 @@ function Page() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <Field label="Team"><Input name="team_name" defaultValue={editing?.team_name ?? ""} /></Field>
-              <Field label="Hourly rate (ZAR)"><Input name="hourly_rate" type="number" step="0.01" defaultValue={editing?.hourly_rate ?? 0} /></Field>
+              <Field label="Hourly rate (ZAR)"><Input name="hourly_rate" type="number" step="0.01" defaultValue={editing?.hourly_rate ?? ""} placeholder="0" /></Field>
             </div>
             <Field label="Hire date"><Input name="hire_date" type="date" defaultValue={editing?.hire_date ?? ""} /></Field>
             <Field label="Notes"><Textarea name="notes" rows={2} defaultValue={editing?.notes ?? ""} /></Field>
