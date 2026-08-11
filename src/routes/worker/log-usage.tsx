@@ -5,6 +5,7 @@ import { useList, NUM } from "@/lib/reef-db";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/NumberField";
 import { Label } from "@/components/ui/label";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -52,7 +53,7 @@ function Page() {
       </div>
       <div className="space-y-2">
         <Label>Quantity used</Label>
-        <Input type="number" inputMode="decimal" step="0.01" className="h-12 text-lg" value={qty} onChange={(e) => setQty(Number(e.target.value))} />
+        <NumberField step="0.01" className="h-12 text-lg" value={qty} onValueChange={setQty} />
       </div>
       <Button className="w-full h-14 text-base" onClick={() => submit.mutate()} disabled={submit.isPending}>
         {submit.isPending ? "Saving…" : "Save"}

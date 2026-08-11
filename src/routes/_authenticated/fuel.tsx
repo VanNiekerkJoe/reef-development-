@@ -6,6 +6,7 @@ import { DataTable } from "@/components/DataTable";
 import { Field } from "@/components/ResourceDialog";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/NumberField";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -187,8 +188,8 @@ function Page() {
                   <SelectContent>{FUEL_TYPES.map((t) => <SelectItem key={t} value={t} className="capitalize">{t}</SelectItem>)}</SelectContent>
                 </Select>
               </Field>
-              <Field label="Litres"><Input type="number" step="0.01" value={litres} onChange={(e) => setLitres(Number(e.target.value))} /></Field>
-              <Field label="Rand / litre"><Input type="number" step="0.01" value={cpl} onChange={(e) => setCpl(Number(e.target.value))} /></Field>
+              <Field label="Litres"><NumberField step="0.01" value={litres} onValueChange={setLitres} /></Field>
+              <Field label="Rand / litre"><NumberField step="0.01" value={cpl} onValueChange={setCpl} /></Field>
             </div>
             <div className="text-sm text-muted-foreground">Total: <span className="num-mono text-foreground">{ZAR(litres * cpl)}</span></div>
             <div className="grid grid-cols-2 gap-3">

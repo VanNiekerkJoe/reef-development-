@@ -5,6 +5,7 @@ import { useList, ZAR } from "@/lib/reef-db";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { NumberField } from "@/components/NumberField";
 import { Label } from "@/components/ui/label";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -78,11 +79,11 @@ function Page() {
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-2">
           <Label>Litres</Label>
-          <Input type="number" inputMode="decimal" step="0.01" className="h-12 text-lg" value={litres} onChange={(e) => setLitres(Number(e.target.value))} />
+          <NumberField step="0.01" className="h-12 text-lg" value={litres} onValueChange={setLitres} />
         </div>
         <div className="space-y-2">
           <Label>Rand / litre</Label>
-          <Input type="number" inputMode="decimal" step="0.01" className="h-12 text-lg" value={cpl} onChange={(e) => setCpl(Number(e.target.value))} />
+          <NumberField step="0.01" className="h-12 text-lg" value={cpl} onValueChange={setCpl} />
         </div>
       </div>
       <div className="text-sm text-muted-foreground">Total: <span className="num-mono text-foreground">{ZAR(litres * cpl)}</span></div>
