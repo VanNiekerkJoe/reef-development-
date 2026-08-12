@@ -98,15 +98,6 @@ function AuthPage() {
     navigate({ to: "/" });
   };
 
-  const _unusedGoogle = async () => {
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) return toast.error(result.error.message ?? "Google sign-in failed");
-    if (result.redirected) return;
-    navigate({ to: "/" });
-  };
-
   return (
     <div
       className="min-h-screen grid lg:grid-cols-[1.1fr_1fr] relative overflow-hidden"
