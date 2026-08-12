@@ -89,6 +89,24 @@ function AuthPage() {
     navigate({ to: "/" });
   };
 
+  const quickLogin = async (testEmail: string) => {
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({ email: testEmail, password: "test123" });
+    setLoading(false);
+    if (error) return toast.error(error.message);
+    toast.success(`Signed in as ${testEmail}`);
+    navigate({ to: "/" });
+  };
+
+  const _unusedGoogle = async () => {
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) return toast.error(result.error.message ?? "Google sign-in failed");
+    if (result.redirected) return;
+    navigate({ to: "/" });
+  };
+
   return (
     <div
       className="min-h-screen grid lg:grid-cols-[1.1fr_1fr] relative overflow-hidden"
@@ -276,6 +294,24 @@ function AuthPage() {
             <Button variant="outline" className="w-full h-11 rounded-none border-primary/20 tracking-[0.15em] uppercase text-xs" onClick={onGoogle}>
               Continue with Google
             </Button>
+
+            <div className="mt-6 border border-dashed border-accent/40 p-4 space-y-3">
+              <div className="text-[10px] tracking-[0.25em] uppercase text-muted-foreground text-center">
+                Demo access · password test123
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <Button type="button" variant="secondary" disabled={loading}
+                        className="h-10 rounded-none tracking-[0.15em] uppercase text-[10px]"
+                        onClick={() => quickLogin("owner@test.com")}>
+                  Owner demo
+                </Button>
+                <Button type="button" variant="secondary" disabled={loading}
+                        className="h-10 rounded-none tracking-[0.15em] uppercase text-[10px]"
+                        onClick={() => quickLogin("worker@test.com")}>
+                  Worker demo
+                </Button>
+              </div>
+            </div>
 
             {/* mobile stat strip */}
             <div className="lg:hidden mt-6 grid grid-cols-4 border-t border-l border-primary/15">
