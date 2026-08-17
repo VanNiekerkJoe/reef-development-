@@ -124,9 +124,6 @@ Open that address in your browser. 🎉
 
 You'll land on the sign-in screen:
 
-<p align="center">
-  <img src="./assets/sign-in-screenshot.png" alt="REEF OPS sign-in screen" width="360">
-</p>
 
 > 🔑 **For the lecturer:** No need to register or sign in manually — use the **Demo Access** buttons at the bottom of the screen (`OWNER DEMO` or `WORKER DEMO`) to jump straight into each role's view.
 
