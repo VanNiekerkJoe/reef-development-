@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState, type FormEvent } from "react";
 import { useList, useUpsert, useRemove, NUM, ZAR } from "@/lib/reef-db";
 import { supabase } from "@/integrations/supabase/client";
-import { useMyRole, isOwnerish } from "@/hooks/useRole";
 import { PageHeader } from "@/components/PageHeader";
 import { DataTable } from "@/components/DataTable";
 import { Field } from "@/components/ResourceDialog";
@@ -34,8 +33,7 @@ const STATUSES = ["present", "absent", "late", "leave", "sick"] as const;
 
 function Page() {
   const { employeeId } = Route.useParams();
-  const { data: role } = useMyRole();
-  const canViewPersonalInformation = isOwnerish(role);
+
 
 
   const employees = useList<any>("employees", "full_name", true);
@@ -66,8 +64,9 @@ function Page() {
     overtime: myAtt.reduce((n: number, a: any) => n + Number(a.overtime_hours ?? 0), 0),
     tons: myAtt.reduce((n: number, a: any) => n + Number(a.tons_contributed ?? 0), 0),
   }), [myAtt]);
-  const [personalInfoVisible, setPersonalInfoVisible] = useState(false);
-  
+
+    const [personalIdNumber, setPersonalIdNumber] = useState<string | null>(null);
+
   const [attOpen, setAttOpen] = useState(false);
   const [editingAtt, setEditingAtt] = useState<any>(null);
   const [attShift, setAttShift] = useState<string>("morning");
@@ -76,35 +75,21 @@ function Page() {
   const [toMine, setToMine] = useState("");
 
   const handlePersonalInformationLookup = async () => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return;
-
-  const allowed = canViewPersonalInformation;
-
-  const { error } = await supabase
-    .from("personal_information_audit")
-    .insert({
-      user_id: user.id,
-      employee_id: employeeId,
-      action: "personal_information_lookup",
-      allowed,
-      reason: allowed
-        ? "Personal information lookup allowed"
-        : "Personal information lookup refused",
-    });
-
-  if (error) {
-    console.error("Failed to record personal information lookup:", error);
-    return;
+    const { data, error } = await supabase.rpc(
+  "disclose_personal_information",
+  {
+    _employee_id: employeeId,
   }
+);
+    if (error) {
+      console.error("Failed to disclose personal information:", error);
+      return;
+    }
 
-  if (allowed) {
-    setPersonalInfoVisible(true);
-  }
-};
+    if (data) {
+      setPersonalIdNumber(data as string);
+    }
+  };
 
   const openNewAtt = () => { setEditingAtt(null); setAttShift(emp?.shift ?? "morning"); setAttStatus("present"); setAttOpen(true); };
   const openEditAtt = (r: any) => { setEditingAtt(r); setAttShift(r.shift); setAttStatus(r.status); setAttOpen(true); };
@@ -194,19 +179,20 @@ function Page() {
     Personal information
   </div>
 
-  {personalInfoVisible ? (
-    <div>{emp.id_number || "—"}</div>
-  ) : (
-    <Button
-      type="button"
-      variant="outline"
-      size="sm"
-      className="mt-1"
-      onClick={handlePersonalInformationLookup}
-    >
-      View personal information
-    </Button>
-  )}
+  {personalIdNumber ? (
+  <div>{personalIdNumber}</div>
+) : (
+  <Button
+    type="button"
+    variant="outline"
+    size="sm"
+    className="mt-1"
+    onClick={handlePersonalInformationLookup}
+  >
+    View personal information
+  </Button>
+)}
+
 </div>
           <Info label="Hire date" value={emp.hire_date} />
           <Info label="Hourly rate" value={`${ZAR(emp.hourly_rate)}/h`} />
